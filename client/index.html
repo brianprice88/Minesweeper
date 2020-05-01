@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Minesweeper</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type='text/css' href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    <header>
+        <h1 class='title'>Minesweeper</h1>
+    </header>
+
+    <form id='newGame'>
+        <div class='levelSelectionButtons'>
+            <p>Select difficulty level:</p>
+            <label class='levelSelectionButton'>
+                <input type='radio' name='level' value='Beginner' checked='checked'>
+                <span class='checkmark'></span>
+                <strong>Beginner</strong> <em>(10 mines on a 9 x 9 board)</em>
+            </label>
+            <label class='levelSelectionButton'>
+                <input type='radio' name='level' value='Intermediate'>
+                <span class='checkmark'></span>
+                <strong>Intermediate</strong> <em>(40 mines on a 16 x 16 board)</em>
+            </label>
+            <label class='levelSelectionButton'>
+                <input type='radio' name='level' value='Expert'>
+                <span class='checkmark'></span>
+                <strong>Expert</strong> <em>(99 mines on a 16 x 30 board)</em>
+            </label>
+        </div>
+        <input type='submit' value='Start game'>
+    </form>
+
+
+    <script src="js/game.js" async defer></script>
+</body>
+
+</html>

@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,12 @@
     "url": "https://github.com/brianprice88/minesweeper/issues"
   },
   "homepage": "https://github.com/brianprice88/minesweeper#readme",
-  "dependencies": {},
+  "dependencies": {
+    "express": "^4.17.1"
+  },
   "devDependencies": {
+    "chai": "^4.2.0",
+    "jest": "^25.5.3",
     "nodemon": "^2.0.3"
   }
 }

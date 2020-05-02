@@ -13,7 +13,7 @@ body {
     letter-spacing: 1px;
 }
 
-/* level selection */
+/* level selection ------------------------------------- */
 
 #newGame {
     margin-left: 40%
@@ -22,7 +22,6 @@ body {
 .levelSelectionButtons {
     display: flex;
     flex-direction: column;
-    width: 60%;
 }
 
 .levelSelectionButton {
@@ -32,9 +31,6 @@ body {
     margin-bottom: 12px;
     cursor: pointer;
     font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
   }
   
@@ -86,4 +82,10 @@ body {
       height: 8px;
       border-radius: 50%;
       background: white;
+  }
+
+  /* Game board ----------------------------------- */
+
+  #gameBoard {
+      opacity: 0
   }

@@ -8,13 +8,12 @@ var selectLevel = function (event) { // user selects level to play
     else if (event.target[1].checked) { level = 'Intermediate' }
     else if (event.target[2].checked) { level = 'Expert' }
     document.getElementById('newGame').style.display = 'none' // hide the signup form
-    document.getElementById('gameBoard').style.opacity = 1 // reveal the game board
-
+    document.getElementById('gameBoard').style.opacity = 1 // reveal the game board div
     createBoard(level)
 
 }
 
-var createBoard = function (level) {
+var createBoard = function (level) { // make the game board based on level
     let rows;
     let columns;
     let mines;
@@ -54,8 +53,3 @@ window.onload = () => {
 
 }
 
-
-
-// function click(event) { // 1 = left click, 3 = right click --> add event listener on each square for 'mousedown'
-//     console.log(event.which)
-// }

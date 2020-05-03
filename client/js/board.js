@@ -21,7 +21,7 @@ class Board {
                 element.classList.add('cell')
                 element.setAttribute('id', `${i},${j}`) // id reference so we can access this element later to change bg color
                 gameBoard.append(element);
-                var cell = new Cell(false, false, false); // cells initially start out without mine/flag/not turned over
+                var cell = {hasMine: false, hasFlag: false, isTurnedOver: false}; // cells initially start out without mine/flag/not turned over
                 this.cells[i][j] = cell // add cell to cells array so we can update game stats etc
             }
         }
@@ -35,9 +35,29 @@ class Board {
         var targetColumn = parseInt(target.split(',')[1])
         var targetCell = this.cells[targetRow][targetColumn] // determine the cell in this.cells that was clicked
         if (event.which === 1) { // left click = turn over cell
-            targetCell.turnOver()
+            this.turnOverCell(targetCell)
         } else if (event.which === 3) { // right click = plant flag
-            targetCell.plantFlag()
+            this.plantFlag(targetCell)
         }
+    }
+
+    turnOverCell(cell) {
+    if (!cell.hasFlag && !cell.isTurnedOver) { // only turn square over if there isn't a flag and it hasn't already been turned over
+        if (cell.hasMine) {
+           // TURN SQUARE RED/SHOW MINE AND END GAME    
+        }
+        else {
+            cell.isTurnedOver = true;
+            console.log(cell)
+            // TURN SQUARE OTHER COLOR AND RUN FUNCTION TO CHECK ADJACENT SQUARES
+        }
+    }
+    }
+
+    plantFlag(cell) {
+    if (!cell.hasFlag) { // plant a flag if there isn't already one there
+        cell.hasFlag = true
+    }
+    // NEED TO VISUALLY SHOW FLAG PLACED THERE
     }
 }

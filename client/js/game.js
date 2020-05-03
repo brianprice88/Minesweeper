@@ -42,11 +42,22 @@ var createBoard = function (level) { // make the game board based on level
             break;
     }
     board = new Board (rows, columns, mines, flags)
-    board.buildBoard()
+    board.buildBoard();
+    document.addEventListener('gameOver', (event) => endGame(event.detail)) // for when game is over
 }
 
 
-
+var endGame = function(result) {
+    if (result === 'win') {
+        alert ('you win!')
+        // show mines
+        // clear board
+    } else {
+        alert ('you lose!')
+        // show remaining squares
+        // clear board
+    }
+}
 
 
 window.onload = () => {

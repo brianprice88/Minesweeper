@@ -124,3 +124,9 @@ body {
    .cell:hover {
        opacity: .6
    }
+
+   .adjacentMines {
+       margin: 0 auto;
+       color: blue;
+       font-size: 20px;
+   }

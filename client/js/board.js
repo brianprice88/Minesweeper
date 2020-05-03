@@ -27,7 +27,7 @@ class Board {
                 element.classList.add('cell')
                 element.setAttribute('id', `${i},${j}`) // id reference so we can access this element later to change bg color
                 gameBoard.append(element);
-                var cell = { hasMine: false, hasFlag: false, isTurnedOver: false, row: i, column: j, adjacentMines: [] }; // cells initially start out without mine/flag/not turned over
+                var cell = { hasMine: false, hasFlag: false, isTurnedOver: false, row: i, column: j, adjacentMines: 0 }; // cells initially start out without mine/flag/not turned over
                 this.cells[i][j] = cell // add cell to cells array so we can update game stats etc
             }
         }
@@ -56,7 +56,7 @@ class Board {
             this.checkAdjacentCells(cell.row, cell.column)
         }
         else if (!cell.hasFlag && !cell.isTurnedOver) { // on subsequent clicks, player has to pick a square without a flag and that hasn't already been turned over
-            if (cell.hasMine) {
+            if (cell.hasMine) { // player uncovers a mine = game over
                 document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'red'
                 var event = new CustomEvent('gameOver', { detail: "lose" })
                 document.dispatchEvent(event)
@@ -64,16 +64,16 @@ class Board {
             else {
                 cell.isTurnedOver = true;
                 this.cellsRevealed++;
-                if (this.cellsRevealed === (this.rows * this.columns) - this.mines) {
+                if (this.cellsRevealed === (this.rows * this.columns) - this.mines) { //all cells besides mines revealed = player wins
                     var event = new CustomEvent('gameOver', { detail: "win" })
                     document.dispatchEvent(event)
                 } else {
-                    if (cell.adjacentMines.length > 0) { // show number of adjacent mines in square
+                    if (cell.adjacentMines > 0) { // show number of adjacent mines in square
                         var mines = document.createElement('p');
                         mines.setAttribute('class', 'adjacentMines')
-                        mines.innerHTML = cell.adjacentMines.length;
+                        mines.innerHTML = cell.adjacentMines;
                         document.getElementById(`${cell.row},${cell.column}`).append(mines)
-                    } else if (cell.adjacentMines.length === 0) { // turn cell green and check adjacent cells
+                    } else if (cell.adjacentMines === 0) { // if no adjacent mines, turn cell green and check adjacent cells
                         document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
                         this.checkAdjacentCells(cell.row, cell.column)
                     }
@@ -83,120 +83,39 @@ class Board {
     }
 
     checkAdjacentCells(i, j) { // check adjacent cells (if they exist) for if they have mines
+          
         if (this.cells[i - 1] && this.cells[i - 1][j - 1]) {
             var cell = this.cells[i - 1][j - 1]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i - 1]) {
             var cell = this.cells[i - 1][j]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i - 1] && this.cells[i - 1][j + 1]) {
             var cell = this.cells[i - 1][j + 1]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i][j - 1]) {
             var cell = this.cells[i][j - 1]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i][j + 1]) {
             var cell = this.cells[i][j + 1]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i + 1] && this.cells[i + 1][j - 1]) {
             var cell = this.cells[i + 1][j - 1]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i + 1]) {
             var cell = this.cells[i + 1][j];
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
         if (this.cells[i + 1] && this.cells[i + 1][j + 1]) {
             var cell = this.cells[i + 1][j + 1]
-            cell.isTurnedOver = true;
-            this.cellsRevealed++;
-            if (cell.adjacentMines.length > 0) {
-                var mines = document.createElement('p');
-                mines.setAttribute('class', 'adjacentMines')
-                mines.innerHTML = cell.adjacentMines.length;
-                document.getElementById(`${cell.row},${cell.column}`).append(mines)
-            } else {
-                document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
-                this.checkAdjacentCells(cell.row, cell.column)
-            }
+            this.turnOverCell(cell)
         }
-
-
     }
 
     plantFlag(cell) {
@@ -226,45 +145,43 @@ class Board {
                 }
             }
         }
-        this.getAdjacentMines(); // figure out all cells' adjacent mines
+        this.getAdjacentMines(); // now figure out all cells' adjacent mines
     }
 
-    getAdjacentMines() { // get adjacent mines for each cell (despite the below, we don't necessarily need to know which mines specifically, just how many / if there are any)
+    getAdjacentMines() { // determine adjacent mines for each cell
         for (var i = 0; i < this.rows; i++) {
             for (var j = 0; j < this.columns; j++) {
                 var cell = this.cells[i][j]
                 if (cell.hasMine) {
                     continue;
                 } else {
-                    var adjacentMines = cell.adjacentMines;
                     if (this.cells[i - 1] && this.cells[i - 1][j - 1] && this.cells[i - 1][j - 1].hasMine) {
-                        adjacentMines.push('topLeft')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i - 1] && this.cells[i - 1][j].hasMine) {
-                        adjacentMines.push('topCenter')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i - 1] && this.cells[i - 1][j + 1] && this.cells[i - 1][j + 1].hasMine) {
-                        adjacentMines.push('topRight')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i][j - 1] && this.cells[i][j - 1].hasMine) {
-                        adjacentMines.push('Left')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i][j + 1] && this.cells[i][j + 1].hasMine) {
-                        adjacentMines.push('Right')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i + 1] && this.cells[i + 1][j - 1] && this.cells[i + 1][j - 1].hasMine) {
-                        adjacentMines.push('bottomLeft')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i + 1] && this.cells[i + 1][j].hasMine) {
-                        adjacentMines.push('bottomCenter')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                     if (this.cells[i + 1] && this.cells[i + 1][j + 1] && this.cells[i + 1][j + 1].hasMine) {
-                        adjacentMines.push('bottomRight')
+                        cell.adjacentMines = cell.adjacentMines + 1
                     }
                 }
             }
         }
-        console.log(this.cells)
     }
 
 }

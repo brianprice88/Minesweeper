@@ -40,7 +40,7 @@ var createBoard = function (level) {
             break;
     }
     board = new Board (rows, columns, mines, flags)
-    console.log(board)
+    board.buildBoard()
 }
 
 
@@ -59,10 +59,3 @@ window.onload = () => {
 // function click(event) { // 1 = left click, 3 = right click --> add event listener on each square for 'mousedown'
 //     console.log(event.which)
 // }
-
-if (typeof exports !== 'undefined') {
-    module.exports = {
-        selectLevel,
-        createBoard
-    }
-}

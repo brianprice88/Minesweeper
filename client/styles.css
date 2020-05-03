@@ -16,7 +16,7 @@ body {
 /* level selection ------------------------------------- */
 
 #newGame {
-    margin-left: 40%
+    margin-left: 40%;
 }
 
 .levelSelectionButtons {
@@ -76,7 +76,7 @@ body {
   
   /* Style the indicator (dot/circle) */
   .levelSelectionButton .checkmark:after {
-       top: 9px;
+      top: 9px;
       left: 9px;
       width: 8px;
       height: 8px;
@@ -87,5 +87,18 @@ body {
   /* Game board ----------------------------------- */
 
   #gameBoard {
-      opacity: 0
+      opacity: 0;
+      display: grid;
+      justify-content: center;
   }
+
+  .cell {
+    background-color: #d9d9d9;
+    border: 2px solid black;
+    cursor: pointer;
+    opacity: .6;
+   }
+
+   .cell:hover {
+       opacity: 1
+   }

@@ -37,13 +37,23 @@
         <input type='submit' value='Start game'>
     </form>
 
-    <div id='gameBoard'></div>
+    <div id='gameRules'>
+        <p>Left click on a square to uncover it, or right click to plant/remove a flag on squares you think contain mines.</p>
+        <p>You win the game by uncovering all non-mine squares.</p>
+        <p>You lose if you uncover a mine!</p>
+    </div>
+    <div id='gameStats'>
+        <p>Mines on board: <h2 id='minesOnBoard'></h2></p>
+        <p>Flags remaining: <h2 id='flagsRemaining'></h2></p>
+    </div>
+
+    <div id='gameBoard'>
+    </div>
 
 
 
     <script src="js/game.js" async defer></script>
     <script src="js/board.js" async defer></script>
-    <script src="js/cell.js" async defer></script>
 </body>
 
 </html>

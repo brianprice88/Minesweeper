@@ -84,6 +84,28 @@ body {
       background: white;
   }
 
+
+
+  /* Game rules ----------------------------------- */
+
+  #gameRules {
+    opacity: 0
+  }
+
+  /* Game stats ----------------------------------- */
+
+  #gameStats {
+    opacity: 0
+  }
+
+  #minesOnBoard {
+      color: red
+  }
+
+  #flagsRemaining {
+      color: blue
+  }
+
   /* Game board ----------------------------------- */
 
   #gameBoard {
@@ -96,9 +118,9 @@ body {
     background-color: #d9d9d9;
     border: 2px solid black;
     cursor: pointer;
-    opacity: .6;
+    opacity: 1;
    }
 
    .cell:hover {
-       opacity: 1
+       opacity: .6
    }

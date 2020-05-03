@@ -8,7 +8,10 @@ var selectLevel = function (event) { // user selects level to play
     else if (event.target[1].checked) { level = 'Intermediate' }
     else if (event.target[2].checked) { level = 'Expert' }
     document.getElementById('newGame').style.display = 'none' // hide the signup form
-    document.getElementById('gameBoard').style.opacity = 1 // reveal the game board div
+    document.getElementById('gameBoard').style.opacity = 1 // reveal the game board/stats/rules divs
+    document.getElementById('gameRules').style.opacity = 1
+    document.getElementById('gameStats').style.opacity = 1
+
     createBoard(level)
 
 }

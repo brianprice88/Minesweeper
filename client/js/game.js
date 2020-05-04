@@ -63,9 +63,9 @@ var endGame = function (result) {
         var endMessage = document.createElement('h1')
         endMessage.setAttribute('id', 'endMessage')
         if (result === 'win') {
-        endMessage.innerHTML = 'You Win!'
+        endMessage.innerHTML = '&#128513 You Win! &#128513'
         } else {
-        endMessage.innerHTML = 'You lose!'
+        endMessage.innerHTML = '&#128532 You Lose &#128532'
         }
         document.getElementById('modal-content').append(endMessage)
 
@@ -86,7 +86,7 @@ var clearBoard = function () {
     document.getElementById('gameRules').style.opacity = 0
     document.getElementById('gameStats').style.opacity = 0
     document.getElementById('newGame').style.display = 'block'
-    board = null;
+    board = undefined;
     gameHasEnded = false;
 }
 

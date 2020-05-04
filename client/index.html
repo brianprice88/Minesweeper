@@ -17,7 +17,7 @@
 
     <form id='newGame'>
         <div class='levelSelectionButtons'>
-            <p>Select difficulty level:</p>
+            <h3>Select difficulty level:</h3>
             <label class='levelSelectionButton'>
                 <input type='radio' name='level' value='Beginner' checked='checked'>
                 <span class='checkmark'></span>
@@ -34,19 +34,21 @@
                 <strong>Expert</strong> <em>(99 mines on a 16 x 30 board)</em>
             </label>
         </div>
-        <input type='submit' value='Start game'>
+        <input type='submit' value='Start Game'>
     </form>
 
     <div id='gameRules'>
-        <p>Left click on a square to uncover it, or right click to plant/remove a flag on squares you think contain
-            mines.</p>
-        <p>You win the game by uncovering all non-mine squares.</p>
-        <p>You lose if you uncover a mine!</p>
+        <p><strong>Left click</strong> on a square to uncover it if you don't think it has a mine.</p>
+        <p>Or <strong>right click</strong> to plant/remove a flag on a square you think contains a mine.</p>
+        <p>You <em>win</em> the game by uncovering all non-mine squares.</p>
+        <p>You <em>lose</em> if you uncover a mine!</p>
     </div>
     <div id='gameStats'>
-        <p>Mines on board: <h2 id='minesOnBoard'></h2>
+        <p>Mines on board: <span id='minesOnBoard'></span>
+        <i class="fa fa-bomb" style="font-size:30px;color:red"></i>
         </p>
-        <p>Flags remaining: <h2 id='flagsRemaining'></h2>
+        <p>Flags remaining: <span id='flagsRemaining'></span>
+            <i class="fa fa-flag-o" style="font-size:30px;color:blue"></i>
         </p>
     </div>
 
@@ -58,8 +60,6 @@
 
     <div id='gameBoard'>
     </div>
-
-
 
     <script src="js/game.js" async defer></script>
     <script src="js/board.js" async defer></script>

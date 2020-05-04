@@ -94,6 +94,7 @@ class Board {
             mines.setAttribute('id', `${cell.row},${cell.column}`) 
             mines.innerHTML = cell.adjacentMines;
             document.getElementById(`${cell.row},${cell.column}`).append(mines)
+            document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = '#d9d9d9'
             }
       } else {
         document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
@@ -135,12 +136,12 @@ class Board {
         if (!cell.hasFlag && this.flags > 0) { // plant a flag if there isn't already one there and if player has at least 1 flag left
             cell.hasFlag = true;
             this.flags--
-            document.getElementById('flagsRemaining').innerHTML = Number(document.getElementById('flagsRemaining').innerHTML) - 1;
+            document.getElementById('flagsRemaining').innerHTML = this.flags;
             document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'blue'
         } else if (cell.hasFlag) { // remove a flag if player clicks on cell with flag already there
             cell.hasFlag = false;
             this.flags++;
-            document.getElementById('flagsRemaining').innerHTML = Number(document.getElementById('flagsRemaining').innerHTML) + 1;
+            document.getElementById('flagsRemaining').innerHTML = this.flags;
             document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = '#d9d9d9'
         }
     }

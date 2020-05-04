@@ -42,31 +42,52 @@ var createBoard = function (level) { // make the game board based on level
             flags = 99;
             break;
     }
-    board = new Board (rows, columns, mines, flags)
+    board = new Board(rows, columns, mines, flags)
     board.buildBoard();
     document.addEventListener('gameOver', (event) => endGame(event.detail)) // for when game is over
 }
 
 
-var endGame = function(result) {
+var endGame = function (result) {
     if (!gameHasEnded) {
-        gameHasEnded = true; 
-    for (var i = 0; i < board.cells.length; i++) {
-        for (var j= 0 ; j < board.cells[i].length; j++) {
-            if(!board.cells[i][j].isTurnedOver) {
-                board.turnOverCell(board.cells[i][j])
+        gameHasEnded = true;
+        for (var i = 0; i < board.cells.length; i++) {
+            for (var j = 0; j < board.cells[i].length; j++) {
+                if (!board.cells[i][j].isTurnedOver) {
+                    board.turnOverCell(board.cells[i][j])
+                }
             }
         }
+
+        document.getElementById('gameOver').style.display = 'block' // reveal end of game modal
+        var endMessage = document.createElement('h1')
+        endMessage.setAttribute('id', 'endMessage')
+        if (result === 'win') {
+        endMessage.innerHTML = 'You Win!'
+        } else {
+        endMessage.innerHTML = 'You lose!'
+        }
+        document.getElementById('modal-content').append(endMessage)
+
+        document.getElementById('closeModal').addEventListener('click', clearBoard)
     }
 
-    if (result === 'win') {
-        alert ('you win!')
-        // clear board
-    } else {
-        alert ('you lose!')
-        // clear board
-    }
+
 }
+
+var clearBoard = function () {
+    var modalText = document.getElementById('endMessage'); // remove end game messages from modal
+    modalText.parentNode.removeChild(modalText)
+    document.getElementById('gameOver').style.display = 'none' // close modal
+    var game = document.getElementById('gameBoard')
+    while (game.hasChildNodes()) {
+        game.removeChild(game.firstChild)
+    }
+    document.getElementById('gameRules').style.opacity = 0
+    document.getElementById('gameStats').style.opacity = 0
+    document.getElementById('newGame').style.display = 'block'
+    board = null;
+    gameHasEnded = false;
 }
 
 

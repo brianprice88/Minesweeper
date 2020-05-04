@@ -32,10 +32,10 @@ class Board {
             }
         }
         gameBoard.addEventListener('mousedown', (event) => this.triggerCell(event)) // event listener for when a cell is clicked
-
     }
 
     triggerCell(event) {
+        if (event.target.id === 'gameBoard') {return} // avoid console error message from clicking outside the cells
         var target = event.target.id;
         var targetRow = parseInt(target.split(',')[0]);
         var targetColumn = parseInt(target.split(',')[1])

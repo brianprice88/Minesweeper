@@ -38,13 +38,22 @@
     </form>
 
     <div id='gameRules'>
-        <p>Left click on a square to uncover it, or right click to plant/remove a flag on squares you think contain mines.</p>
+        <p>Left click on a square to uncover it, or right click to plant/remove a flag on squares you think contain
+            mines.</p>
         <p>You win the game by uncovering all non-mine squares.</p>
         <p>You lose if you uncover a mine!</p>
     </div>
     <div id='gameStats'>
-        <p>Mines on board: <h2 id='minesOnBoard'></h2></p>
-        <p>Flags remaining: <h2 id='flagsRemaining'></h2></p>
+        <p>Mines on board: <h2 id='minesOnBoard'></h2>
+        </p>
+        <p>Flags remaining: <h2 id='flagsRemaining'></h2>
+        </p>
+    </div>
+
+    <div id='gameOver' class='modal'>
+        <div id='modal-content'>
+            <button id='closeModal'>Play again</button>
+        </div>
     </div>
 
     <div id='gameBoard'>

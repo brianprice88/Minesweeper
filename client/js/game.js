@@ -50,7 +50,7 @@ var createBoard = function (level) { // make the game board based on level
 
 var endGame = function(result) {
     if (!gameHasEnded) {
-        gameHasEnded = true;
+        gameHasEnded = true; 
     for (var i = 0; i < board.cells.length; i++) {
         for (var j= 0 ; j < board.cells[i].length; j++) {
             if(!board.cells[i][j].isTurnedOver) {
@@ -67,7 +67,6 @@ var endGame = function(result) {
         // clear board
     }
 }
-console.log(board.cells)
 }
 
 

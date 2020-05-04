@@ -88,10 +88,13 @@ class Board {
             document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'red'
     } else {
         if (cell.adjacentMines > 0) { // show number of adjacent mines in square
+            if (document.getElementById(`${cell.row},${cell.column}`).childNodes.length === 0) { // don't append number if it was already added
             var mines = document.createElement('p');
             mines.setAttribute('class', 'adjacentMines')
+            mines.setAttribute('id', `${cell.row},${cell.column}`) 
             mines.innerHTML = cell.adjacentMines;
             document.getElementById(`${cell.row},${cell.column}`).append(mines)
+            }
       } else {
         document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
     }
@@ -128,6 +131,7 @@ class Board {
     }
 
     plantFlag(cell) {
+        if (!gameHasEnded) {
         if (!cell.hasFlag && this.flags > 0) { // plant a flag if there isn't already one there and if player has at least 1 flag left
             cell.hasFlag = true;
             this.flags--
@@ -139,6 +143,7 @@ class Board {
             document.getElementById('flagsRemaining').innerHTML = Number(document.getElementById('flagsRemaining').innerHTML) + 1;
             document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = '#d9d9d9'
         }
+    }
     }
 
     placeMines(cell) { // place mines after first user click, so don't put a mine on that square

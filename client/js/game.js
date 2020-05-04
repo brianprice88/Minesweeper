@@ -1,5 +1,6 @@
 
 var board; // board is initially undefined
+var gameHasEnded = false; // will be used to run game end function just once
 
 var selectLevel = function (event) { // user selects level to play
     event.preventDefault();
@@ -48,15 +49,25 @@ var createBoard = function (level) { // make the game board based on level
 
 
 var endGame = function(result) {
+    if (!gameHasEnded) {
+        gameHasEnded = true;
+    for (var i = 0; i < board.cells.length; i++) {
+        for (var j= 0 ; j < board.cells[i].length; j++) {
+            if(!board.cells[i][j].isTurnedOver) {
+                board.turnOverCell(board.cells[i][j])
+            }
+        }
+    }
+
     if (result === 'win') {
         alert ('you win!')
-        // show mines
         // clear board
     } else {
         alert ('you lose!')
-        // show remaining squares
         // clear board
     }
+}
+console.log(board.cells)
 }
 
 

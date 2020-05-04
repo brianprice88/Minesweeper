@@ -48,6 +48,7 @@ class Board {
     }
 
     turnOverCell(cell) {
+      if (!gameHasEnded) {
         if (this.cellsRevealed === 0) { //player's first click: plant mines, check adjacent cells
             this.placeMines(cell)
             cell.isTurnedOver = true;
@@ -62,15 +63,16 @@ class Board {
                 document.dispatchEvent(event)
             }
             else {
-                cell.isTurnedOver = true;
-                this.cellsRevealed++;
-                if (this.cellsRevealed === (this.rows * this.columns) - this.mines) { //all cells besides mines revealed = player wins
+                if (this.cellsRevealed + 1 === (this.rows * this.columns) - this.mines) { //all cells besides mines revealed = player wins
                     var event = new CustomEvent('gameOver', { detail: "win" })
                     document.dispatchEvent(event)
                 } else {
+                    this.cellsRevealed++;
+                    cell.isTurnedOver = true;
                     if (cell.adjacentMines > 0) { // show number of adjacent mines in square
                         var mines = document.createElement('p');
                         mines.setAttribute('class', 'adjacentMines')
+                        mines.setAttribute('id', `${cell.row},${cell.column}`) // this is to avoid an error if user clicked on the added number
                         mines.innerHTML = cell.adjacentMines;
                         document.getElementById(`${cell.row},${cell.column}`).append(mines)
                     } else if (cell.adjacentMines === 0) { // if no adjacent mines, turn cell green and check adjacent cells
@@ -80,41 +82,48 @@ class Board {
                 }
             }
         }
+    } 
+    else { //if game is over, display the square no matter what
+        if (cell.hasMine) {
+            document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'red'
+    } else {
+        if (cell.adjacentMines > 0) { // show number of adjacent mines in square
+            var mines = document.createElement('p');
+            mines.setAttribute('class', 'adjacentMines')
+            mines.innerHTML = cell.adjacentMines;
+            document.getElementById(`${cell.row},${cell.column}`).append(mines)
+      } else {
+        document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
+    }
+      }
     }
 
-    checkAdjacentCells(i, j) { // check adjacent cells (if they exist) for if they have mines
-          
+    }
+
+    checkAdjacentCells(i, j) { // check adjacent cells (if they exist) for if they have mines    
         if (this.cells[i - 1] && this.cells[i - 1][j - 1]) {
-            var cell = this.cells[i - 1][j - 1]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i - 1][j - 1])
         }
         if (this.cells[i - 1]) {
-            var cell = this.cells[i - 1][j]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i - 1][j])
         }
         if (this.cells[i - 1] && this.cells[i - 1][j + 1]) {
-            var cell = this.cells[i - 1][j + 1]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i - 1][j + 1])
         }
         if (this.cells[i][j - 1]) {
-            var cell = this.cells[i][j - 1]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i][j - 1])
         }
         if (this.cells[i][j + 1]) {
-            var cell = this.cells[i][j + 1]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i][j + 1])
         }
         if (this.cells[i + 1] && this.cells[i + 1][j - 1]) {
-            var cell = this.cells[i + 1][j - 1]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i + 1][j - 1])
         }
         if (this.cells[i + 1]) {
-            var cell = this.cells[i + 1][j];
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i + 1][j])
         }
         if (this.cells[i + 1] && this.cells[i + 1][j + 1]) {
-            var cell = this.cells[i + 1][j + 1]
-            this.turnOverCell(cell)
+            this.turnOverCell(this.cells[i + 1][j + 1])
         }
     }
 
@@ -151,33 +160,32 @@ class Board {
     getAdjacentMines() { // determine adjacent mines for each cell
         for (var i = 0; i < this.rows; i++) {
             for (var j = 0; j < this.columns; j++) {
-                var cell = this.cells[i][j]
-                if (cell.hasMine) {
+                if (this.cells[i][j].hasMine) {
                     continue;
                 } else {
                     if (this.cells[i - 1] && this.cells[i - 1][j - 1] && this.cells[i - 1][j - 1].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i - 1] && this.cells[i - 1][j].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i - 1] && this.cells[i - 1][j + 1] && this.cells[i - 1][j + 1].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i][j - 1] && this.cells[i][j - 1].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i][j + 1] && this.cells[i][j + 1].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i + 1] && this.cells[i + 1][j - 1] && this.cells[i + 1][j - 1].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i + 1] && this.cells[i + 1][j].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                     if (this.cells[i + 1] && this.cells[i + 1][j + 1] && this.cells[i + 1][j + 1].hasMine) {
-                        cell.adjacentMines = cell.adjacentMines + 1
+                        this.cells[i][j].adjacentMines = this.cells[i][j].adjacentMines + 1
                     }
                 }
             }

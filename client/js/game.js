@@ -2,6 +2,12 @@
 var board; // board is initially undefined
 var gameHasEnded = false; // will be used to run game end function just once
 
+var loadHighScores = function() { // TO DO
+    // use fetch to get high scores
+    // also need to post new high score if user gets high score
+    // and add timer showing what's elapsed
+}
+
 var selectLevel = function (event) { // user selects level to play
     event.preventDefault();
     let level;
@@ -14,7 +20,6 @@ var selectLevel = function (event) { // user selects level to play
     document.getElementById('gameStats').style.opacity = 1
 
     createBoard(level)
-
 }
 
 var createBoard = function (level) { // make the game board based on level
@@ -66,10 +71,8 @@ var endGame = function (result) {
         } else {
         endMessage.innerHTML = 'You Lose &#128532'
         }
-        document.getElementById('modal-content').append(endMessage)
-
+        document.getElementById('endGame-content').append(endMessage)
     }
-
 
 }
 
@@ -105,8 +108,15 @@ var clearBoard = function (event) {
 
 window.onload = () => {
 
+    loadHighScores(); // populate high scores table when page loads
+
     const form = document.getElementById('newGame');
     form.addEventListener('submit', selectLevel)
+
+    const highScores = document.getElementById('viewHighScores')
+    highScores.addEventListener('click', () => document.getElementById('highScores').style.display = 'block')
+    const closeHighScores = document.getElementById('closeHighScores');
+    closeHighScores.addEventListener('click', () => document.getElementById('highScores').style.display = 'none')
 
     document.getElementById('changeDifficulty').addEventListener('click', (event) => clearBoard(event))
     document.getElementById('playAgain').addEventListener('click', (event) => clearBoard(event))

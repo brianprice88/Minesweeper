@@ -50,6 +50,7 @@ class Board {
     }
 
     turnOverCell(cell) {
+        console.log(this.cellsRevealed)
       if (!gameHasEnded) {
         if (this.cellsRevealed === 0) { //player's first click: plant mines, check adjacent cells
             this.placeMines(cell)

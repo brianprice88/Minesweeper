@@ -44,7 +44,6 @@ var createBoard = function (level) { // make the game board based on level
     }
     board = new Board(rows, columns, mines, flags)
     board.buildBoard();
-    document.addEventListener('gameOver', (event) => endGame(event.detail)) // for when game is over
 }
 
 
@@ -57,8 +56,7 @@ var endGame = function (result) {
                     board.turnOverCell(board.cells[i][j])
                 }
             }
-        }
-
+        }        
         document.getElementById('gameOver').style.display = 'block' // reveal end of game modal
         var endMessage = document.createElement('h1')
         endMessage.setAttribute('id', 'endMessage')
@@ -69,9 +67,6 @@ var endGame = function (result) {
         }
         document.getElementById('modal-content').append(endMessage)
 
-        document.getElementById('changeDifficulty').addEventListener('click', (event) => clearBoard(event))
-        document.getElementById('playAgain').addEventListener('click', (event) => clearBoard(event))
-
     }
 
 
@@ -79,6 +74,7 @@ var endGame = function (result) {
 
 var clearBoard = function (event) {
     var modalText = document.getElementById('endMessage'); // remove end game messages from modal
+
     modalText.parentNode.removeChild(modalText)
     document.getElementById('gameOver').style.display = 'none' // close modal
     var game = document.getElementById('gameBoard')
@@ -86,18 +82,17 @@ var clearBoard = function (event) {
         game.removeChild(game.firstChild)
     }
     gameHasEnded = false;
+    game.removeEventListener('mousedown', (event) => this.triggerCell(event))
 
     if (event.target.id === 'changeDifficulty') {
-        board = undefined;
         document.getElementById('newGame').style.display = 'block'
         document.getElementById('gameRules').style.opacity = 0
     document.getElementById('gameStats').style.opacity = 0
-    } else {
+    } else if (event.target.id === 'playAgain') {
         let level;
         if (board.mines === 10) {level = 'Beginner'}
-        else if (board.mines === 40) {level === 'Intermediate'}
-        else {level === 'Expert'}
-        board = undefined;
+        else if (board.mines === 40) {level = 'Intermediate'}
+        else {level = 'Expert'}
         createBoard(level)
     }
 }
@@ -107,6 +102,10 @@ window.onload = () => {
 
     const form = document.getElementById('newGame');
     form.addEventListener('submit', selectLevel)
+
+    document.getElementById('changeDifficulty').addEventListener('click', (event) => clearBoard(event))
+    document.getElementById('playAgain').addEventListener('click', (event) => clearBoard(event))
+    document.addEventListener('gameOver', (event) => endGame(event.detail)) // for when game is over
 
 }
 

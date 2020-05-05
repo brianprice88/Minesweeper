@@ -33,7 +33,6 @@ class Board {
                 this.cells[i][j] = cell // add cell to cells array so we can update game stats etc
             }
         }
-        gameBoard.addEventListener('mousedown', (event) => this.triggerCell(event)) // event listener for when a cell is clicked
     }
 
     triggerCell(event) {
@@ -50,7 +49,6 @@ class Board {
     }
 
     turnOverCell(cell) {
-        console.log(this.cellsRevealed)
       if (!gameHasEnded) {
         if (this.cellsRevealed === 0) { //player's first click: plant mines, check adjacent cells
             this.placeMines(cell)

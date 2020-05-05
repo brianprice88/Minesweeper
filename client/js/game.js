@@ -44,6 +44,7 @@ var createBoard = function (level) { // make the game board based on level
     }
     board = new Board(rows, columns, mines, flags)
     board.buildBoard();
+    document.getElementById('gameBoard').addEventListener('mousedown', (event) => board.triggerCell(event))
 }
 
 
@@ -83,11 +84,15 @@ var clearBoard = function (event) {
     }
     gameHasEnded = false;
     game.removeEventListener('mousedown', (event) => this.triggerCell(event))
-
     if (event.target.id === 'changeDifficulty') {
         document.getElementById('newGame').style.display = 'block'
         document.getElementById('gameRules').style.opacity = 0
     document.getElementById('gameStats').style.opacity = 0
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
     } else if (event.target.id === 'playAgain') {
         let level;
         if (board.mines === 10) {level = 'Beginner'}

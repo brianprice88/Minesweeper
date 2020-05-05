@@ -83,7 +83,7 @@ var clearBoard = function (event) {
         game.removeChild(game.firstChild)
     }
     gameHasEnded = false;
-    game.removeEventListener('mousedown', (event) => this.triggerCell(event))
+    game.removeEventListener('mousedown', (event) => board.triggerCell(event))
     if (event.target.id === 'changeDifficulty') {
         document.getElementById('newGame').style.display = 'block'
         document.getElementById('gameRules').style.opacity = 0

@@ -109,27 +109,39 @@ var endGame = function (result) {
         var endMessage = document.createElement('h1')
         endMessage.setAttribute('id', 'endMessage')
 
-        console.log(document.getElementById(`${level}Scores`).children.length)
 
-
-        if (result === 'win') {
+        if (result === 'lose') {
             endMessage.innerHTML = 'You Win! &#128513'
             var tableRows = document.getElementById(`${level}Scores`).children[1].children.length
-            if (tableRows < 11) { // if tbody has fewer than 11 children it means fewer than 10 high scores in this table
-                //high score by default
-                alert('high score!')
-            } else if (tableRows >= 11) { // 11 or more children means check if this beat the high score
-                var lowestScore = parseInt(document.getElementById(`${level}Scores`).children[1].children[tableRows - 1].children[1].innerHTML)
-                if (endTime < lowestScore) {
-                    // new high score
-                }
-            }
+            var lowestScore = parseInt(document.getElementById(`${level}Scores`).children[1].children[tableRows - 1].children[1].innerHTML)
+            if (tableRows < 11 || (endTime < lowestScore)) { // if tbody has fewer than 11 children it means fewer than 10 high scores in this table, while 11 or more children means check if this beat the high score
+              endMessage.innerHTML += 'And you got a high score!'
+              var addHighScore = document.createElement('input')
+              addHighScore.setAttribute('type', 'text')
+              addHighScore.setAttribute('placeholder', 'Enter your name to add your score')
+              addHighScore.setAttribute('id', 'addHighScore')
+              endMessage.append(addHighScore)
+              var addScoreButton = document.createElement('button')
+              addScoreButton.setAttribute('id', 'addScoreButton')
+              endMessage.append(addScoreButton)
+              var deletePrevHighScore = tableRows < 11 ? false : true
+              addScoreButton.addEventListener('click', () => addScore(endTime, deletePrevHighScore))
+            } 
+
         } else {
             endMessage.innerHTML = 'You Lose &#128532'
         }
         document.getElementById('endGame-content').append(endMessage)
     }
 
+}
+
+var addScore = function(score, needToUpdate) {
+  var name = document.getElementById('addHighScore').value;
+  console.log(name) // need to validate name and make it required to enter
+  console.log(score, needToUpdate) // if needToUpdate, do update request to server, otherwise do add request
+  // once score has been added/updated, delete the input/button and remove event listener.  
+  // then fetch high scores again so the table updates
 }
 
 var clearBoard = function (event) {

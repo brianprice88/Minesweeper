@@ -21,16 +21,35 @@
     <div id='highScoresTable'>
 
         <div class="modal-header">
-            <span id="closeHighScores">&times;</span>
-            <h2>High Scores</h2>
+            <span id="closeHighScores">Return to game</span>
           </div>
           <div class="modal-body">
-            <p>Beginner</p>
-            <p>Intermediate</p>
-            <p>Advanced</p>
-          </div>
-          <div class="modal-footer">
-            <h3>Name / Time</h3>
+              <table id = 'BeginnerScores' class='scoreTable'>
+                <caption>Beginner</caption>
+                    <tr>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+              </table>
+
+              <table id = 'IntermediateScores' class='scoreTable'>
+                <caption>Intermediate</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Time</th>
+                </tr>
+
+              </table>
+
+              <table id= 'ExpertScores' class='scoreTable'>
+                <caption>Expert</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Time</th>
+                </tr>
+
+              </table>
+           
           </div>
 
 
@@ -75,6 +94,7 @@
         <p>Flags remaining: <span id='flagsRemaining'></span>
             <i class="fa fa-flag-o" style="font-size:30px;color:blue"></i>
         </p>
+        <p>Minutes elapsed: <span class='Orbitron' id='minutesElapsed'></span> Seconds elapsed: <span class='Orbitron' id='secondsElapsed'></span></p>
     </div>
 
     <div id='gameOver' class='modal'>

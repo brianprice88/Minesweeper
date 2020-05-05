@@ -1,6 +1,8 @@
 
 var board; // board is initially undefined
 var gameHasEnded = false; // will be used to run game end function just once
+var startTime;
+var timeInterval;
 
 var loadHighScores = function() { // TO DO
     // use fetch to get high scores
@@ -18,7 +20,6 @@ var selectLevel = function (event) { // user selects level to play
     document.getElementById('gameBoard').style.opacity = 1 // reveal the game board/stats/rules divs
     document.getElementById('gameRules').style.opacity = 1
     document.getElementById('gameStats').style.opacity = 1
-
     createBoard(level)
 }
 
@@ -50,11 +51,30 @@ var createBoard = function (level) { // make the game board based on level
     board = new Board(rows, columns, mines, flags)
     board.buildBoard();
     document.getElementById('gameBoard').addEventListener('mousedown', (event) => board.triggerCell(event))
+
+    document.getElementById('minutesElapsed').innerHTML = ''
+    document.getElementById('secondsElapsed').innerHTML = ''
+    startTime = new Date();
+    timeInterval = setInterval(runTimer, 1000)
+
+}
+
+var runTimer = function() {
+    var timeElapsed = Math.floor((new Date() - startTime) / 1000);
+    var minutes = Math.floor(timeElapsed / 60)
+    var seconds = timeElapsed - (minutes * 60)
+    document.getElementById('minutesElapsed').innerHTML = minutes;
+    document.getElementById('secondsElapsed').innerHTML = seconds
+    
 }
 
 
 var endGame = function (result) {
     if (!gameHasEnded) {
+        clearInterval(timeInterval)
+        let endTime = Math.floor((new Date() - startTime) / 1000);
+        console.log('endTime', endTime) // # of seconds game took
+
         gameHasEnded = true;
         for (var i = 0; i < board.cells.length; i++) {
             for (var j = 0; j < board.cells[i].length; j++) {

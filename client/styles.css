@@ -83,20 +83,41 @@ body {
     padding: 2px 16px;
     background-color: #5cb85c;
     color: white;
+    height: 35px;
   }
   
-  .modal-body {padding: 2px 16px;}
+  .modal-body {
+      padding: 2px 16px;
+      display: flex;
+      flex-direction: row;
+      flex: 1;
+      height: fit-content
+    }
+
+    .scoreTable {
+        flex: .33;
+        border: 1px solid black;
+    }
+
+    .scoreTable caption {
+        letter-spacing: 2px;
+        font-family: monospace;
+        font-size: 30px;
+    }
+
+    .scoreTable th {
+        color: red;
+    }
+
+    .scoreTable td {
+        text-align: center;
+    }
   
-  .modal-footer {
-    padding: 2px 16px;
-    background-color: #5cb85c;
-    color: white;
-  }
 
   #closeHighScores {
+    margin-left: 40%;
     color: white;
-    float: right;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
   }
   

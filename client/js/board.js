@@ -18,8 +18,10 @@ class Board {
 
         var flagCount = document.getElementById('flagsRemaining')
         flagCount.innerHTML = this.flags;
+        flagCount.classList.add('Orbitron')
         var mineCount = document.getElementById('minesOnBoard')
         mineCount.innerHTML = this.mines
+        mineCount.classList.add('Orbitron')
 
         for (var i = 0; i < this.rows; i++) { // add appropriate number of cells to board, and new Cell instance to cells array
             for (var j = 0; j < this.columns; j++) {
@@ -74,6 +76,7 @@ class Board {
                         mines.setAttribute('class', 'adjacentMines')
                         mines.setAttribute('id', `${cell.row},${cell.column}`) // this is to avoid an error if user clicked on the added number
                         mines.innerHTML = cell.adjacentMines;
+                        mines.classList.add('Orbitron')
                         document.getElementById(`${cell.row},${cell.column}`).append(mines)
                     } else if (cell.adjacentMines === 0) { // if no adjacent mines, turn cell green and check adjacent cells
                         document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'green'
@@ -91,6 +94,7 @@ class Board {
             if (document.getElementById(`${cell.row},${cell.column}`).childNodes.length === 0) { // don't append number if it was already added
             var mines = document.createElement('p');
             mines.setAttribute('class', 'adjacentMines')
+            mines.classList.add('Orbitron')
             mines.setAttribute('id', `${cell.row},${cell.column}`) 
             mines.innerHTML = cell.adjacentMines;
             document.getElementById(`${cell.row},${cell.column}`).append(mines)
@@ -133,7 +137,7 @@ class Board {
 
     plantFlag(cell) {
         if (!gameHasEnded) {
-        if (!cell.hasFlag && this.flags > 0) { // plant a flag if there isn't already one there and if player has at least 1 flag left
+        if (!cell.hasFlag && this.flags > 0 && !cell.isTurnedOver) { // plant a flag if there isn't already one there and if player has at least 1 flag left
             cell.hasFlag = true;
             this.flags--
             document.getElementById('flagsRemaining').innerHTML = this.flags;

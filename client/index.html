@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type='text/css' href="./styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Orbitron' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
@@ -17,31 +18,33 @@
 
     <form id='newGame'>
         <div class='levelSelectionButtons'>
-            <h3>Select difficulty level:</h3>
+            <h3>Select level:</h3>
             <label class='levelSelectionButton'>
                 <input type='radio' name='level' value='Beginner' checked='checked'>
                 <span class='checkmark'></span>
-                <strong>Beginner</strong> <em>(10 mines on a 9 x 9 board)</em>
+                <strong>Beginner</strong> <br><em>(10 mines on a 9 x 9 board)</em>
             </label>
             <label class='levelSelectionButton'>
                 <input type='radio' name='level' value='Intermediate'>
                 <span class='checkmark'></span>
-                <strong>Intermediate</strong> <em>(40 mines on a 16 x 16 board)</em>
+                <strong>Intermediate</strong> <br><em>(40 mines on a 16 x 16 board)</em>
             </label>
             <label class='levelSelectionButton'>
                 <input type='radio' name='level' value='Expert'>
                 <span class='checkmark'></span>
-                <strong>Expert</strong> <em>(99 mines on a 16 x 30 board)</em>
+                <strong>Expert</strong> <br><em>(99 mines on a 16 x 30 board)</em>
             </label>
         </div>
         <input type='submit' value='Start Game'>
     </form>
 
     <div id='gameRules'>
-        <p><strong>Left click</strong> on a square to uncover it if you don't think it has a mine.</p>
-        <p>Or <strong>right click</strong> to plant/remove a flag on a square you think contains a mine.</p>
-        <p>You <em>win</em> the game by uncovering all non-mine squares.</p>
-        <p>You <em>lose</em> if you uncover a mine!</p>
+        <p><strong>Left click</strong> on a square to uncover it if you don't think it has a <span style='color:red'>mine</span>.</p>
+        <p>If it turns <strong style='color:green'>green</strong>, there are no adjacent <span style='color:red'>mines</span>.</p>
+        <p>If it reveals a <span class='Orbitron'>Number</span>, that's how many adjacent <span style='color:red'>mines</span> there are.</p>
+        <p><strong>Right click</strong> to plant/remove a <span style='color:blue'>flag</span> on a square you think contains a <span style='color:red'>mine</span>.</p>
+        <p>You <em>win</em> the game by uncovering all non-<span style='color:red'>mine</span> squares.</p>
+        <p>You <em>lose</em> if you uncover a <span style='color:red'>mine</span>!</p>
     </div>
     <div id='gameStats'>
         <p>Mines on board: <span id='minesOnBoard'></span>
@@ -54,7 +57,10 @@
 
     <div id='gameOver' class='modal'>
         <div id='modal-content'>
-            <button id='closeModal'>Play again</button>
+            <div class='modalFlex'>
+            <button class='closeModal' id='playAgain'>Play Again</button>
+            <button class='closeModal' id='changeDifficulty'>Change Level</button>
+                </div>
         </div>
     </div>
 

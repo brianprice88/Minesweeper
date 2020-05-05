@@ -5,6 +5,10 @@ body {
     background-color: darkkhaki;
 }
 
+.Orbitron {
+    font-family: Orbitron;
+}
+
 .title {
     color: rgb(0, 139, 132);
     margin-left: 40%;
@@ -175,7 +179,8 @@ form input {
    /* End of game modal ------------ */
 
    #endMessage {
-       margin-Left: 2%
+       margin-left: 20%;
+       font-size: 36px
    }
 
    .modal {
@@ -189,7 +194,14 @@ form input {
     height: 100%;
    }
 
-   #modal-content {
+   @media screen and (max-width: 1075px), screen and (min-width: 1275px) {
+       .modalFlex {
+           display: flex;
+           flex-direction: column
+       }
+   }
+
+  #modal-content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
@@ -197,16 +209,24 @@ form input {
     width: 30%;
   }
 
-  #closeModal {
+  #playAgain {
+      float: left
+  }
+
+  #changeDifficulty {
+      float: right
+  }
+
+  .closeModal {
     color: #aaaaaa;
-    float: right;
     font-size: 28px;
     font-weight: bold;
     margin-Top: 6%;
+    margin-bottom: 20px;
   }
 
-  #closeModal:hover,
-#closeModal:focus {
+.closeModal:hover,
+.closeModal:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;

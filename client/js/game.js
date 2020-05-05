@@ -63,19 +63,21 @@ var endGame = function (result) {
         var endMessage = document.createElement('h1')
         endMessage.setAttribute('id', 'endMessage')
         if (result === 'win') {
-        endMessage.innerHTML = '&#128513 You Win! &#128513'
+        endMessage.innerHTML = 'You Win! &#128513'
         } else {
-        endMessage.innerHTML = '&#128532 You Lose &#128532'
+        endMessage.innerHTML = 'You Lose &#128532'
         }
         document.getElementById('modal-content').append(endMessage)
 
-        document.getElementById('closeModal').addEventListener('click', clearBoard)
+        document.getElementById('changeDifficulty').addEventListener('click', (event) => clearBoard(event))
+        document.getElementById('playAgain').addEventListener('click', (event) => clearBoard(event))
+
     }
 
 
 }
 
-var clearBoard = function () {
+var clearBoard = function (event) {
     var modalText = document.getElementById('endMessage'); // remove end game messages from modal
     modalText.parentNode.removeChild(modalText)
     document.getElementById('gameOver').style.display = 'none' // close modal
@@ -83,11 +85,21 @@ var clearBoard = function () {
     while (game.hasChildNodes()) {
         game.removeChild(game.firstChild)
     }
-    document.getElementById('gameRules').style.opacity = 0
-    document.getElementById('gameStats').style.opacity = 0
-    document.getElementById('newGame').style.display = 'block'
-    board = undefined;
     gameHasEnded = false;
+
+    if (event.target.id === 'changeDifficulty') {
+        board = undefined;
+        document.getElementById('newGame').style.display = 'block'
+        document.getElementById('gameRules').style.opacity = 0
+    document.getElementById('gameStats').style.opacity = 0
+    } else {
+        let level;
+        if (board.mines === 10) {level = 'Beginner'}
+        else if (board.mines === 40) {level === 'Intermediate'}
+        else {level === 'Expert'}
+        board = undefined;
+        createBoard(level)
+    }
 }
 
 

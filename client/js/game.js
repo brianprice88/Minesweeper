@@ -3,16 +3,40 @@ var board; // board is initially undefined
 var gameHasEnded = false; // will be used to run game end function just once
 var startTime;
 var timeInterval;
+var level;
 
-var loadHighScores = function() { // TO DO
-    // use fetch to get high scores
-    // also need to post new high score if user gets high score
-    // and add timer showing what's elapsed
+var loadHighScores = function () { // TO DO
+    var scores = [];
+    fetch('http://localhost:3000/highScores')
+        .then(data => data.json())
+        .then(res => scores.push(res))
+        .catch(err => console.error(err))
+    scores.sort((a, b) => (a['score'] - b['score'])) // sort by scores
+
+    for (var i = 0; i < scores.length; i++) {
+        var scoreRow = document.createElement('tr')
+        var scoreName = document.createElement('td')
+        var scoreTime = document.createElement('td')
+        scoreName.innerHTML = scores[i].name
+        var mins = Math.floor(scores[i].time / 60)
+        var secs = scores[i].time - (mins * 60)
+        scoreTime.innerHTML = mins + ':' + secs
+        scoreRow.append(scoreName)
+        scoreRow.append(scoreTime)
+        if (scores[i].level = 'Beginner') {
+            document.getElementById('BeginnerScores').append(scoreRow)
+        } else if (scores[i].level === 'Intermediate') {
+            document.getElementById('IntermediateScores').append(scoreRow)
+
+        } else {
+            document.getElementById('ExpertScores').append(scoreRow)
+
+        }
+    }
 }
 
 var selectLevel = function (event) { // user selects level to play
     event.preventDefault();
-    let level;
     if (event.target[0].checked) { level = 'Beginner' }
     else if (event.target[1].checked) { level = 'Intermediate' }
     else if (event.target[2].checked) { level = 'Expert' }
@@ -59,21 +83,19 @@ var createBoard = function (level) { // make the game board based on level
 
 }
 
-var runTimer = function() {
+var runTimer = function () {
     var timeElapsed = Math.floor((new Date() - startTime) / 1000);
     var minutes = Math.floor(timeElapsed / 60)
     var seconds = timeElapsed - (minutes * 60)
     document.getElementById('minutesElapsed').innerHTML = minutes;
     document.getElementById('secondsElapsed').innerHTML = seconds
-    
 }
 
 
 var endGame = function (result) {
     if (!gameHasEnded) {
         clearInterval(timeInterval)
-        let endTime = Math.floor((new Date() - startTime) / 1000);
-        console.log('endTime', endTime) // # of seconds game took
+        var endTime = Math.floor((new Date() - startTime) / 1000);
 
         gameHasEnded = true;
         for (var i = 0; i < board.cells.length; i++) {
@@ -82,14 +104,28 @@ var endGame = function (result) {
                     board.turnOverCell(board.cells[i][j])
                 }
             }
-        }        
+        }
         document.getElementById('gameOver').style.display = 'block' // reveal end of game modal
         var endMessage = document.createElement('h1')
         endMessage.setAttribute('id', 'endMessage')
+
+        console.log(document.getElementById(`${level}Scores`).children.length)
+
+
         if (result === 'win') {
-        endMessage.innerHTML = 'You Win! &#128513'
+            endMessage.innerHTML = 'You Win! &#128513'
+            var tableRows = document.getElementById(`${level}Scores`).children[1].children.length
+            if (tableRows < 11) { // if tbody has fewer than 11 children it means fewer than 10 high scores in this table
+                //high score by default
+                alert('high score!')
+            } else if (tableRows >= 11) { // 11 or more children means check if this beat the high score
+                var lowestScore = parseInt(document.getElementById(`${level}Scores`).children[1].children[tableRows - 1].children[1].innerHTML)
+                if (endTime < lowestScore) {
+                    // new high score
+                }
+            }
         } else {
-        endMessage.innerHTML = 'You Lose &#128532'
+            endMessage.innerHTML = 'You Lose &#128532'
         }
         document.getElementById('endGame-content').append(endMessage)
     }
@@ -110,17 +146,13 @@ var clearBoard = function (event) {
     if (event.target.id === 'changeDifficulty') {
         document.getElementById('newGame').style.display = 'block'
         document.getElementById('gameRules').style.opacity = 0
-    document.getElementById('gameStats').style.opacity = 0
-    window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'smooth'
-      });
+        document.getElementById('gameStats').style.opacity = 0
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
     } else if (event.target.id === 'playAgain') {
-        let level;
-        if (board.mines === 10) {level = 'Beginner'}
-        else if (board.mines === 40) {level = 'Intermediate'}
-        else {level = 'Expert'}
         createBoard(level)
     }
 }

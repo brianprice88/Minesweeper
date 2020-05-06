@@ -16,7 +16,7 @@ var loadHighScores = function () {
 
 var appendScores = function(scores) {
     scores = scores[0] // because the response array was pushed into the scores array
-    scores.sort((a, b) => (a['score'] - b['score'])) // sort by scores
+    scores.sort((a, b) => (a['time'] - b['time'])) // sort by scores
     for (var i = 0; i < scores.length; i++) {
         var scoreRow = document.createElement('tr')
         var scoreName = document.createElement('td')
@@ -117,10 +117,12 @@ var endGame = function (result) {
 
         if (result === 'lose') {
             endMessage.innerHTML = 'You Win! &#128513'
-            var tableRows = document.getElementById(`${level}Scores`).children[1].children.length
-            var lowestScore = parseInt(document.getElementById(`${level}Scores`).children[1].children[tableRows - 1].children[1].innerHTML)
-            if (tableRows < 11 || (endTime < lowestScore)) { // if tbody has fewer than 11 children it means fewer than 10 high scores in this table, while 11 or more children means check if this beat the high score
-              endMessage.innerHTML += 'And you got a high score!'
+            var tableRows = document.getElementById(`${level}Scores`).children.length
+            var lowestScore = document.getElementById(`${level}Scores`).children[tableRows - 1].children[1].innerHTML
+            var lowestScoreFormatted = (parseInt(lowestScore.split(':')[0])) * 60 + (parseInt(lowestScore.split(':')[1]))
+            console.log(lowestScoreFormatted, endTime)
+            if (tableRows < 11 || (endTime < lowestScoreFormatted)) { // if tbody has fewer than 11 children it means fewer than 10 high scores in this table, while 11 or more children means check if this beat the high score
+            endMessage.innerHTML += 'And you got a high score!'
               var addHighScore = document.createElement('input')
               addHighScore.setAttribute('type', 'text')
               addHighScore.setAttribute('placeholder', 'Enter your name to add your score')
@@ -151,23 +153,24 @@ var addScore = function(time, needToUpdate) {
   highScore.parentNode.removeChild(highScore)
   highScoreSubmit.parentNode.removeChild(highScoreSubmit)
 
-  const scoreRows = Array.from(document.getElementById(`${level}Scores`).children).slice(2) // ignore caption/tbody
+
+  const options = {name, time, level};
+  const elementToRemove = document.getElementById(`${level}Scores`).lastChild
+  const nameToRemove = elementToRemove.children[0].innerHTML;
+  const timeToRemove = elementToRemove.children[1].innerHTML;
+
+  const scoreRows = Array.from(document.getElementById(`${level}Scores`).children).slice(2) // ignore caption/tbody but remove score rows
     for (var i = 0; i < scoreRows.length; i++) {
         scoreRows[i].parentNode.removeChild(scoreRows[i])
     }
 
   if (needToUpdate) { // put request to remove lowest score and replace with this one
-    const options = {name, time, level};
-    const elementToRemove = document.getElementById(`${level}Scores`).lastChild
-    const nameToRemove = elementToRemove.children[0].innerHTML;
-    const timeToRemove = elementToRemove.children[1].innerHTML;
     options.nameToRemove = nameToRemove;
     options.timeToRemove = timeToRemove;
     fetch('http://localhost:3000/highScores', {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(options)})
     .then(res => loadHighScores())
     .catch(err => console.error(err))
   } else { // post request to add new score if there aren't 10 high scores for this level
-    const options = {name, time, level}
     fetch('http://localhost:3000/highScores', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(options)})
     .then(res => loadHighScores())
     .catch(err => console.error(err))

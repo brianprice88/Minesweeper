@@ -151,14 +151,18 @@ var addScore = function(time, needToUpdate) {
   highScore.parentNode.removeChild(highScore)
   highScoreSubmit.parentNode.removeChild(highScoreSubmit)
 
+  const scoreRows = Array.from(document.getElementById(`${level}Scores`).children).slice(2) // ignore caption/tbody
+    for (var i = 0; i < scoreRows.length; i++) {
+        scoreRows[i].parentNode.removeChild(scoreRows[i])
+    }
+
   if (needToUpdate) { // put request to remove lowest score and replace with this one
     const options = {name, time, level};
     const elementToRemove = document.getElementById(`${level}Scores`).lastChild
     const nameToRemove = elementToRemove.children[0].innerHTML;
     const timeToRemove = elementToRemove.children[1].innerHTML;
     options.nameToRemove = nameToRemove;
-    options.timeToRemove = timeToRemove
-    elementToRemove.parentNode.removeChild(elementToRemove) // remove that element from the dom in addition to replacing in database
+    options.timeToRemove = timeToRemove;
     fetch('http://localhost:3000/highScores', {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(options)})
     .then(res => loadHighScores())
     .catch(err => console.error(err))
@@ -167,10 +171,7 @@ var addScore = function(time, needToUpdate) {
     fetch('http://localhost:3000/highScores', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(options)})
     .then(res => loadHighScores())
     .catch(err => console.error(err))
-  }
-
-  // once score has been added/updated, delete the input/button and remove event listener.  
-  
+  }  
 }
 
 var clearBoard = function (event) {
@@ -183,7 +184,8 @@ var clearBoard = function (event) {
         game.removeChild(game.firstChild)
     }
     gameHasEnded = false;
-    game.removeEventListener('mousedown', (event) => board.triggerCell(event))
+    // game = undefined; // is this line needed either?
+    // game.removeEventListener('mousedown', (event) => board.triggerCell(event)) // is this line needed?
     if (event.target.id === 'changeDifficulty') {
         document.getElementById('newGame').style.display = 'block'
         document.getElementById('gameRules').style.opacity = 0

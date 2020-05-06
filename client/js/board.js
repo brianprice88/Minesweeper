@@ -138,12 +138,12 @@ class Board {
         if (!gameHasEnded) {
         if (!cell.hasFlag && this.flags > 0 && !cell.isTurnedOver) { // plant a flag if there isn't already one there and if player has at least 1 flag left
             cell.hasFlag = true;
-            this.flags--
+            this.flags = this.flags - 1;
             document.getElementById('flagsRemaining').innerHTML = this.flags;
             document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'blue'
         } else if (cell.hasFlag) { // remove a flag if player clicks on cell with flag already there
             cell.hasFlag = false;
-            this.flags++;
+            this.flags = this.flags + 1;
             document.getElementById('flagsRemaining').innerHTML = this.flags;
             document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = '#d9d9d9'
         }

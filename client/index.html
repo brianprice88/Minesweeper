@@ -15,6 +15,44 @@
     <header>
         <h1 class='title'>Minesweeper</h1>
     </header>
+    
+    <button id='viewHighScores'><span>High Scores</span></button>
+    <div id='highScores' class='modal'>
+    <div id='highScoresTable'>
+
+        <div class="modal-header">
+            <span id="closeHighScores">Return to game</span>
+          </div>
+          <div class="modal-body">
+              <table id = 'BeginnerScores' class='scoreTable'>
+                <caption>Beginner</caption>
+                    <tr>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+              </table>
+
+              <table id = 'IntermediateScores' class='scoreTable'>
+                <caption>Intermediate</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Time</th>
+                </tr>
+              </table>
+
+              <table id= 'ExpertScores' class='scoreTable'>
+                <caption>Expert</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Time</th>
+                </tr>
+
+              </table>
+          
+          </div>
+    </div>
+    </div>
+
 
     <form id='newGame'>
         <div class='levelSelectionButtons'>
@@ -53,10 +91,11 @@
         <p>Flags remaining: <span id='flagsRemaining'></span>
             <i class="fa fa-flag-o" style="font-size:30px;color:blue"></i>
         </p>
+        <p>Minutes elapsed: <span class='Orbitron' id='minutesElapsed'></span> Seconds elapsed: <span class='Orbitron' id='secondsElapsed'></span></p>
     </div>
 
     <div id='gameOver' class='modal'>
-        <div id='modal-content'>
+        <div id='endGame-content'>
             <div class='modalFlex'>
             <button class='closeModal' id='playAgain'>Play Again</button>
             <button class='closeModal' id='changeDifficulty'>Change Level</button>

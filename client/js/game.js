@@ -28,12 +28,12 @@ var appendScores = function (scores) {
         scoreTime.innerHTML = mins + ':' + secs
         scoreRow.append(scoreName)
         scoreRow.append(scoreTime)
-        if (scores[i].level = 'Beginner') {
+        if (scores[i].level === 'Beginner') {
             document.getElementById('BeginnerScores').append(scoreRow)
-        } else if (scores[i].level = 'Intermediate') {
+        } else if (scores[i].level === 'Intermediate') {
             document.getElementById('IntermediateScores').append(scoreRow)
 
-        } else if (scores[i].level = 'Expert') {
+        } else if (scores[i].level === 'Expert') {
             document.getElementById('ExpertScores').append(scoreRow)
 
         }
@@ -115,7 +115,7 @@ var endGame = function (result) {
         endMessage.setAttribute('id', 'endMessage')
 
 
-        if (result === 'lose') {
+        if (result === 'win') {
             endMessage.innerHTML = 'You Win! &#128513'
             var tableRows = document.getElementById(`${level}Scores`).children.length
             if (tableRows > 2) {
@@ -172,10 +172,13 @@ var addScore = function (time, needToUpdate) {
             .catch(err => console.error(err))
     }
 
-    const scoreRows = Array.from(document.getElementById(`${level}Scores`).children).slice(2) // ignore caption/tbody but remove score rows
+    const levels = ['Beginner', 'Intermediate', 'Expert']
+    for (var x = 0; x <=2; x++) {
+    const scoreRows = Array.from(document.getElementById(`${levels[x]}Scores`).children).slice(2) // ignore caption/tbody but remove score rows from the tables
     for (var i = 0; i < scoreRows.length; i++) {
         scoreRows[i].parentNode.removeChild(scoreRows[i])
     }
+}
 }
 
 var clearBoard = function (event) {

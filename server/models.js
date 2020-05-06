@@ -13,8 +13,13 @@ const models = {
         .catch(err => res.status(400).send(err))
     },
     updateHighScore: (req, res) => {
-        const {name, time, level} = req.body;
-        // to do
+        var {name, time, level, nameToRemove, timeToRemove} = req.body;
+        timeToRemove = (parseInt(timeToRemove.split(':')[0])) * 60 + (parseInt(timeToRemove.split(':')[1]))
+        const filter = {name: nameToRemove, time: timeToRemove, level};
+        const update = {name, time}
+        return highScores.findOneAndUpdate(filter, update)
+        .then(data => res.status(200).send(data))
+        .catch(err => console.log(err))
 
     }
 }

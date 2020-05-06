@@ -358,11 +358,11 @@ form input {
 }
 
 #addHighScore {
-  width: 200px;
+  width: fit-content;
   height: 50px;
 }
 
 #addScoreButton {
-  width: 50px;
+  width: fit-content;
   height: 25px;
 }

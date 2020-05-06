@@ -5,14 +5,18 @@ var startTime;
 var timeInterval;
 var level;
 
-var loadHighScores = function () { // TO DO
-    var scores = [];
-    fetch('http://localhost:3000/highScores')
+var loadHighScores = function () {
+    var scores = []
+    fetch('http://localhost:3000/highScores', {method: 'GET'})
         .then(data => data.json())
         .then(res => scores.push(res))
+        .then(next => appendScores(scores))
         .catch(err => console.error(err))
-    scores.sort((a, b) => (a['score'] - b['score'])) // sort by scores
+}
 
+var appendScores = function(scores) {
+    scores = scores[0] // because the response array was pushed into the scores array
+    scores.sort((a, b) => (a['score'] - b['score'])) // sort by scores
     for (var i = 0; i < scores.length; i++) {
         var scoreRow = document.createElement('tr')
         var scoreName = document.createElement('td')
@@ -20,15 +24,16 @@ var loadHighScores = function () { // TO DO
         scoreName.innerHTML = scores[i].name
         var mins = Math.floor(scores[i].time / 60)
         var secs = scores[i].time - (mins * 60)
+        if (secs < 10) {secs = '0' + secs}
         scoreTime.innerHTML = mins + ':' + secs
         scoreRow.append(scoreName)
         scoreRow.append(scoreTime)
         if (scores[i].level = 'Beginner') {
             document.getElementById('BeginnerScores').append(scoreRow)
-        } else if (scores[i].level === 'Intermediate') {
+        } else if (scores[i].level = 'Intermediate') {
             document.getElementById('IntermediateScores').append(scoreRow)
 
-        } else {
+        } else if (scores[i].level = 'Expert') {
             document.getElementById('ExpertScores').append(scoreRow)
 
         }
@@ -123,6 +128,7 @@ var endGame = function (result) {
               endMessage.append(addHighScore)
               var addScoreButton = document.createElement('button')
               addScoreButton.setAttribute('id', 'addScoreButton')
+              addScoreButton.innerHTML = 'Add your score'
               endMessage.append(addScoreButton)
               var deletePrevHighScore = tableRows < 11 ? false : true
               addScoreButton.addEventListener('click', () => addScore(endTime, deletePrevHighScore))
@@ -136,12 +142,35 @@ var endGame = function (result) {
 
 }
 
-var addScore = function(score, needToUpdate) {
+var addScore = function(time, needToUpdate) {
   var name = document.getElementById('addHighScore').value;
-  console.log(name) // need to validate name and make it required to enter
-  console.log(score, needToUpdate) // if needToUpdate, do update request to server, otherwise do add request
+  if (!name.match(/^[a-zA-Z]+$/)) {return} // make sure name is valid
+  
+  const highScore = document.getElementById('addHighScore')
+  const highScoreSubmit = document.getElementById('addScoreButton')
+  highScore.parentNode.removeChild(highScore)
+  highScoreSubmit.parentNode.removeChild(highScoreSubmit)
+
+  if (needToUpdate) { // put request to remove lowest score and replace with this one
+    const options = {name, time, level};
+    const elementToRemove = document.getElementById(`${level}Scores`).lastChild
+    const nameToRemove = elementToRemove.children[0].innerHTML;
+    const timeToRemove = elementToRemove.children[1].innerHTML;
+    options.nameToRemove = nameToRemove;
+    options.timeToRemove = timeToRemove
+    elementToRemove.parentNode.removeChild(elementToRemove) // remove that element from the dom in addition to replacing in database
+    fetch('http://localhost:3000/highScores', {method: 'PUT', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(options)})
+    .then(res => loadHighScores())
+    .catch(err => console.error(err))
+  } else { // post request to add new score if there aren't 10 high scores for this level
+    const options = {name, time, level}
+    fetch('http://localhost:3000/highScores', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(options)})
+    .then(res => loadHighScores())
+    .catch(err => console.error(err))
+  }
+
   // once score has been added/updated, delete the input/button and remove event listener.  
-  // then fetch high scores again so the table updates
+  
 }
 
 var clearBoard = function (event) {

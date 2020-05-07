@@ -4,6 +4,7 @@ var gameHasEnded = false; // will be used to run game end function just once
 var startTime;
 var timeInterval;
 var level;
+var clickListener = function(event) {board.triggerCell(event)} // since we need to add/remove this in separate listener functions, it's defined here
 
 var loadHighScores = function () {
     var scores = []
@@ -22,8 +23,8 @@ var appendScores = function (scores) {
         var scoreName = document.createElement('td')
         var scoreTime = document.createElement('td')
         scoreName.innerHTML = scores[i].name
-        var mins = Math.floor(scores[i].time / 60)
-        var secs = scores[i].time - (mins * 60)
+        const mins = Math.floor(scores[i].time / 60)
+        let secs = scores[i].time - (mins * 60)
         if (secs < 10) { secs = '0' + secs }
         scoreTime.innerHTML = mins + ':' + secs
         scoreRow.append(scoreName)
@@ -32,10 +33,8 @@ var appendScores = function (scores) {
             document.getElementById('BeginnerScores').append(scoreRow)
         } else if (scores[i].level === 'Intermediate') {
             document.getElementById('IntermediateScores').append(scoreRow)
-
         } else if (scores[i].level === 'Expert') {
             document.getElementById('ExpertScores').append(scoreRow)
-
         }
     }
 }
@@ -79,7 +78,7 @@ var createBoard = function (level) { // make the game board based on level
     }
     board = new Board(rows, columns, mines, flags)
     board.buildBoard();
-    document.getElementById('gameBoard').addEventListener('mousedown', (event) => board.triggerCell(event))
+    document.getElementById('gameBoard').addEventListener('mousedown', clickListener)
 
     document.getElementById('minutesElapsed').innerHTML = ''
     document.getElementById('secondsElapsed').innerHTML = ''
@@ -89,9 +88,9 @@ var createBoard = function (level) { // make the game board based on level
 }
 
 var runTimer = function () {
-    var timeElapsed = Math.floor((new Date() - startTime) / 1000);
-    var minutes = Math.floor(timeElapsed / 60)
-    var seconds = timeElapsed - (minutes * 60)
+    const timeElapsed = Math.floor((new Date() - startTime) / 1000);
+    const minutes = Math.floor(timeElapsed / 60)
+    const seconds = timeElapsed - (minutes * 60)
     document.getElementById('minutesElapsed').innerHTML = minutes;
     document.getElementById('secondsElapsed').innerHTML = seconds
 }
@@ -148,7 +147,7 @@ var endGame = function (result) {
 }
 
 var addScore = function (time, needToUpdate) {
-    var name = document.getElementById('addHighScore').value;
+    let name = document.getElementById('addHighScore').value;
     if (!name.match(/^[a-zA-Z]+$/)) { return } // make sure name is valid
     if (name.length > 12) {name = name.slice(0, 12)} // max length 12 chars
 
@@ -195,8 +194,7 @@ var clearBoard = function (event) {
         game.removeChild(game.firstChild)
     }
     gameHasEnded = false;
-    // game = undefined; // is this line needed either?
-    // game.removeEventListener('mousedown', (event) => board.triggerCell(event)) // is this line needed?
+    game.removeEventListener('mousedown', clickListener)
     if (event.target.id === 'changeDifficulty') {
         document.getElementById('newGame').style.display = 'block'
         document.getElementById('gameRules').style.opacity = 0

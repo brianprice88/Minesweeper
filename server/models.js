@@ -13,7 +13,7 @@ const models = {
         .catch(err => res.status(400).send(err))
     },
     updateHighScore: (req, res) => {
-        var {name, time, level, nameToRemove, timeToRemove} = req.body;
+        let {name, time, level, nameToRemove, timeToRemove} = req.body;
         timeToRemove = (parseInt(timeToRemove.split(':')[0])) * 60 + (parseInt(timeToRemove.split(':')[1])) // convert to number in seconds
         const filter = {name: nameToRemove, time: timeToRemove, level};
         const update = {name, time}

@@ -37,10 +37,10 @@ class Board {
 
     triggerCell(event) {
         if (event.target.id === 'gameBoard') {return} // avoid console error message from clicking outside the cells
-        var target = event.target.id;
-        var targetRow = parseInt(target.split(',')[0]);
-        var targetColumn = parseInt(target.split(',')[1])
-        var targetCell = this.cells[targetRow][targetColumn] // determine the cell in this.cells that was clicked
+        const target = event.target.id;
+        const targetRow = parseInt(target.split(',')[0]);
+        const targetColumn = parseInt(target.split(',')[1])
+        const targetCell = this.cells[targetRow][targetColumn] // determine the cell in this.cells that was clicked
         if (event.which === 1) { // left click = turn over cell
             this.turnOverCell(targetCell)
         } else if (event.which === 3) { // right click = plant flag
@@ -60,12 +60,12 @@ class Board {
         else if (!cell.hasFlag && !cell.isTurnedOver) { // on subsequent clicks, player has to pick a square without a flag and that hasn't already been turned over
             if (cell.hasMine) { // player uncovers a mine = game over
                 document.getElementById(`${cell.row},${cell.column}`).style.backgroundColor = 'red'
-                var event = new CustomEvent('gameOver', { detail: "lose" })
+                const event = new CustomEvent('gameOver', { detail: "lose" })
                 document.dispatchEvent(event)
             }
             else {
                 if (this.cellsRevealed + 1 === (this.rows * this.columns) - this.mines) { //all cells besides mines revealed = player wins
-                    var event = new CustomEvent('gameOver', { detail: "win" })
+                    const event = new CustomEvent('gameOver', { detail: "win" })
                     document.dispatchEvent(event)
                 } else {
                     this.cellsRevealed++;

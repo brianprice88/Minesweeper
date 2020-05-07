@@ -1,5 +1,4 @@
 @import url(https://fonts.googleapis.com/css?family=Orbitron);
-
 @import url(https://fonts.googleapis.com/css?family=Titillium+Web:900);
 
 body {
@@ -132,8 +131,6 @@ body {
     cursor: pointer;
   }
 
- 
-
 /* level selection ------------------------------------- */
 
 #newGame {
@@ -165,14 +162,12 @@ body {
     width: 35%
   }
   
-  /* Hide the browser's default radio button */
   .levelSelectionButton input {
     position: absolute;
     opacity: 0;
     cursor: pointer;
   }
   
-  /* Create a custom radio button */
   .checkmark {
     position: absolute;
     top: 0;
@@ -183,29 +178,24 @@ body {
     border-radius: 50%;
   }
   
-  /* On mouse-over, add a grey background color */
   .levelSelectionButton:hover input ~ .checkmark {
     background-color: #ccc;
   }
   
-  /* When the radio button is checked, add a blue background */
   .levelSelectionButton input:checked ~ .checkmark {
     background-color: #2196F3;
   }
   
-  /* Create the indicator (the dot/circle - hidden when not checked) */
   .checkmark:after {
     content: "";
     position: absolute;
     display: none;
   }
   
-  /* Show the indicator (dot/circle) when checked */
   .levelSelectionButton input:checked ~ .checkmark:after {
     display: block;
   }
   
-  /* Style the indicator (dot/circle) */
   .levelSelectionButton .checkmark:after {
       top: 9px;
       left: 9px;
@@ -333,7 +323,6 @@ form input {
       text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
     }
   }
-
 
    .modal {
     display: none;

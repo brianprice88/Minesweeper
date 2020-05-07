@@ -1,23 +1,21 @@
-
-var board; // board is initially undefined
-var gameHasEnded = false; // will be used to run game end function just once
+var board;
+var gameHasEnded = false;
 var startTime;
 var timeInterval;
 var level;
-var clickListener = function(event) {board.triggerCell(event)} // since we need to add/remove this in separate listener functions, it's defined here
+var clickListener = function (event) { board.triggerCell(event) } // event handler callback is added at beginning of game and removed at end, thus placed in global scope
 
 var loadHighScores = function () {
     var scores = []
     fetch('http://localhost:3000/highScores', { method: 'GET' })
         .then(data => data.json())
         .then(res => scores.push(res))
-        .then(next => appendScores(scores))
+        .then(next => appendScores(scores[0]))
         .catch(err => console.error(err))
 }
 
 var appendScores = function (scores) {
-    scores = scores[0] // because the response array was pushed into the scores array
-    scores.sort((a, b) => (a['time'] - b['time'])) // sort by scores
+    scores.sort((a, b) => (a['time'] - b['time']))
     for (var i = 0; i < scores.length; i++) {
         var scoreRow = document.createElement('tr')
         var scoreName = document.createElement('td')
@@ -39,19 +37,19 @@ var appendScores = function (scores) {
     }
 }
 
-var selectLevel = function (event) { // user selects level to play
+var selectLevel = function (event) {
     event.preventDefault();
     if (event.target[0].checked) { level = 'Beginner' }
     else if (event.target[1].checked) { level = 'Intermediate' }
     else if (event.target[2].checked) { level = 'Expert' }
-    document.getElementById('newGame').style.display = 'none' // hide the signup form
-    document.getElementById('gameBoard').style.opacity = 1 // reveal the game board/stats/rules divs
+    document.getElementById('newGame').style.display = 'none'
+    document.getElementById('gameBoard').style.opacity = 1
     document.getElementById('gameRules').style.opacity = 1
     document.getElementById('gameStats').style.opacity = 1
     createBoard(level)
 }
 
-var createBoard = function (level) { // make the game board based on level
+var createBoard = function (level) {
     let rows;
     let columns;
     let mines;
@@ -79,12 +77,10 @@ var createBoard = function (level) { // make the game board based on level
     board = new Board(rows, columns, mines, flags)
     board.buildBoard();
     document.getElementById('gameBoard').addEventListener('mousedown', clickListener)
-
     document.getElementById('minutesElapsed').innerHTML = ''
     document.getElementById('secondsElapsed').innerHTML = ''
     startTime = new Date();
     timeInterval = setInterval(runTimer, 1000)
-
 }
 
 var runTimer = function () {
@@ -100,7 +96,6 @@ var endGame = function (result) {
     if (!gameHasEnded) {
         clearInterval(timeInterval)
         var endTime = Math.floor((new Date() - startTime) / 1000);
-
         gameHasEnded = true;
         for (var i = 0; i < board.cells.length; i++) {
             for (var j = 0; j < board.cells[i].length; j++) {
@@ -109,20 +104,18 @@ var endGame = function (result) {
                 }
             }
         }
-        document.getElementById('gameOver').style.display = 'block' // reveal end of game modal
+        document.getElementById('gameOver').style.display = 'block'
         var endMessage = document.createElement('h1')
         endMessage.setAttribute('id', 'endMessage')
-
-
         if (result === 'win') {
             endMessage.innerHTML = 'You Win!'
             endMessage.setAttribute('class', 'youWin')
             var tableRows = document.getElementById(`${level}Scores`).children.length
             if (tableRows > 2) {
-                var lowestScore = document.getElementById(`${level}Scores`).children[tableRows - 1].children[1].innerHTML || undefined
+                var lowestScore = document.getElementById(`${level}Scores`).children[tableRows - 1].children[1].innerHTML
                 var lowestScoreFormatted = (parseInt(lowestScore.split(':')[0])) * 60 + (parseInt(lowestScore.split(':')[1]))
             }
-            if (tableRows < 12 || (endTime < lowestScoreFormatted)) { // if tbody has fewer than 12 children it means fewer than 10 high scores in this table, while 11 or more children means check if this beat the high score
+            if (tableRows < 12 || (endTime < lowestScoreFormatted)) { // tableRows < 12 means fewer than 10 high scores thus this is automatically a high score
                 endMessage.innerHTML += '<br> And you got a high score!<br>'
                 var addHighScore = document.createElement('input')
                 addHighScore.setAttribute('type', 'text')
@@ -136,31 +129,25 @@ var endGame = function (result) {
                 var deletePrevHighScore = tableRows < 12 ? false : true
                 addScoreButton.addEventListener('click', () => addScore(endTime, deletePrevHighScore))
             }
-
-        } else {
+        } else if (result === 'lose') {
             endMessage.innerHTML = 'You Lose';
             endMessage.setAttribute('class', 'youLose')
         }
         document.getElementById('endGame-content').append(endMessage)
     }
-
 }
 
 var addScore = function (time, needToUpdate) {
     let name = document.getElementById('addHighScore').value;
-    if (!name.match(/^[a-zA-Z]+$/)) { return } // make sure name is valid
-    if (name.length > 12) {name = name.slice(0, 12)} // max length 12 chars
-
+    if (!name.match(/^[a-zA-Z]+$/)) { return }
+    if (name.length > 12) { name = name.slice(0, 12) }
     const highScore = document.getElementById('addHighScore')
     const highScoreSubmit = document.getElementById('addScoreButton')
     highScore.parentNode.removeChild(highScore)
     highScoreSubmit.parentNode.removeChild(highScoreSubmit)
     endMessage.innerHTML = 'Score submitted'
-
-
     const options = { name, time, level };
-
-    if (needToUpdate) { // put request to remove lowest score and replace with this one
+    if (needToUpdate) {
         const elementToRemove = document.getElementById(`${level}Scores`).lastChild
         const nameToRemove = elementToRemove.children[0].innerHTML;
         const timeToRemove = elementToRemove.children[1].innerHTML;
@@ -169,26 +156,24 @@ var addScore = function (time, needToUpdate) {
         fetch('http://localhost:3000/highScores', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(options) })
             .then(res => loadHighScores())
             .catch(err => console.error(err))
-    } else { // post request to add new score if there aren't 10 high scores for this level
+    } else {
         fetch('http://localhost:3000/highScores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(options) })
             .then(res => loadHighScores())
             .catch(err => console.error(err))
     }
-
     const levels = ['Beginner', 'Intermediate', 'Expert']
-    for (var x = 0; x <=2; x++) {
-    const scoreRows = Array.from(document.getElementById(`${levels[x]}Scores`).children).slice(2) // ignore caption/tbody but remove score rows from the tables
-    for (var i = 0; i < scoreRows.length; i++) {
-        scoreRows[i].parentNode.removeChild(scoreRows[i])
+    for (var x = 0; x <= 2; x++) {
+        const scoreRows = Array.from(document.getElementById(`${levels[x]}Scores`).children).slice(2) // ignore caption/tbody but remove score rows from the tables
+        for (var i = 0; i < scoreRows.length; i++) {
+            scoreRows[i].parentNode.removeChild(scoreRows[i])
+        }
     }
-}
 }
 
 var clearBoard = function (event) {
-    var modalText = document.getElementById('endMessage'); // remove end game messages from modal
-
+    var modalText = document.getElementById('endMessage');
     modalText.parentNode.removeChild(modalText)
-    document.getElementById('gameOver').style.display = 'none' // close modal
+    document.getElementById('gameOver').style.display = 'none'
     var game = document.getElementById('gameBoard')
     while (game.hasChildNodes()) {
         game.removeChild(game.firstChild)
@@ -211,20 +196,15 @@ var clearBoard = function (event) {
 
 
 window.onload = () => {
-
-    loadHighScores(); // populate high scores table when page loads
-
+    loadHighScores();
     const form = document.getElementById('newGame');
     form.addEventListener('submit', selectLevel)
-
     const highScores = document.getElementById('viewHighScores')
     highScores.addEventListener('click', () => document.getElementById('highScores').style.display = 'block')
     const closeHighScores = document.getElementById('closeHighScores');
     closeHighScores.addEventListener('click', () => document.getElementById('highScores').style.display = 'none')
-
     document.getElementById('changeDifficulty').addEventListener('click', (event) => clearBoard(event))
     document.getElementById('playAgain').addEventListener('click', (event) => clearBoard(event))
     document.addEventListener('gameOver', (event) => endGame(event.detail)) // for when game is over
-
 }
 

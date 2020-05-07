@@ -15,44 +15,38 @@
     <header>
         <h1 class='title'>Minesweeper</h1>
     </header>
-    
+
     <button id='viewHighScores'><span>High Scores</span></button>
     <div id='highScores' class='modal'>
-    <div id='highScoresTable'>
-
-        <div class="modal-header">
-            <span id="closeHighScores">Return to game</span>
-          </div>
-          <div class="modal-body">
-              <table id = 'BeginnerScores' class='scoreTable'>
-                <caption>Beginner</caption>
+        <div id='highScoresTable'>
+            <div class="modal-header">
+                <span id="closeHighScores">Return to game</span>
+            </div>
+            <div class="modal-body">
+                <table id='BeginnerScores' class='scoreTable'>
+                    <caption>Beginner</caption>
                     <tr>
                         <th>Name</th>
                         <th>Time</th>
                     </tr>
-              </table>
-
-              <table id = 'IntermediateScores' class='scoreTable'>
-                <caption>Intermediate</caption>
-                <tr>
-                    <th>Name</th>
-                    <th>Time</th>
-                </tr>
-              </table>
-
-              <table id= 'ExpertScores' class='scoreTable'>
-                <caption>Expert</caption>
-                <tr>
-                    <th>Name</th>
-                    <th>Time</th>
-                </tr>
-
-              </table>
-          
-          </div>
+                </table>
+                <table id='IntermediateScores' class='scoreTable'>
+                    <caption>Intermediate</caption>
+                    <tr>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+                </table>
+                <table id='ExpertScores' class='scoreTable'>
+                    <caption>Expert</caption>
+                    <tr>
+                        <th>Name</th>
+                        <th>Time</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-    </div>
-
 
     <form id='newGame'>
         <div class='levelSelectionButtons'>
@@ -77,29 +71,34 @@
     </form>
 
     <div id='gameRules'>
-        <p><strong>Left click</strong> to uncover a square if you don't think it has a <span style='color:red'>mine</span>.</p>
-        <p>If it turns <strong style='color:green'>green</strong>, there are no adjacent <span style='color:red'>mines</span>.</p>
-        <p>If it reveals a <span class='Orbitron'>Number</span>, that's the number of adjacent <span style='color:red'>mines</span>.</p>
-        <p><strong>Right click</strong> to plant a <span style='color:blue'>flag</span> on a square you think has a <span style='color:red'>mine</span>.</p>
+        <p><strong>Left click</strong> to uncover a square if you don't think it has a <span
+                style='color:red'>mine</span>.</p>
+        <p>If it turns <strong style='color:green'>green</strong>, there are no adjacent <span
+                style='color:red'>mines</span>.</p>
+        <p>If it reveals a <span class='Orbitron'>Number</span>, that's the number of adjacent <span
+                style='color:red'>mines</span>.</p>
+        <p><strong>Right click</strong> to plant a <span style='color:blue'>flag</span> on a square you think has a
+            <span style='color:red'>mine</span>.</p>
         <p>You <em>win</em> the game by uncovering all squares without <span style='color:red'>mines</span>.</p>
         <p>You <em>lose</em> if you uncover a <span style='color:red'>mine</span>!</p>
     </div>
     <div id='gameStats'>
         <p>Mines on board: <span id='minesOnBoard'></span>
-        <i class="fa fa-bomb" style="font-size:30px;color:red"></i>
+            <i class="fa fa-bomb" style="font-size:30px;color:red"></i>
         </p>
         <p>Flags remaining: <span id='flagsRemaining'></span>
             <i class="fa fa-flag-o" style="font-size:30px;color:blue"></i>
         </p>
-        <p>Minutes elapsed: <span class='Orbitron' id='minutesElapsed'></span> Seconds elapsed: <span class='Orbitron' id='secondsElapsed'></span></p>
+        <p>Minutes elapsed: <span class='Orbitron' id='minutesElapsed'></span> Seconds elapsed: <span class='Orbitron'
+                id='secondsElapsed'></span></p>
     </div>
 
     <div id='gameOver' class='modal'>
         <div id='endGame-content'>
             <div class='modalFlex'>
-            <button class='closeModal' id='playAgain'>Play Again</button>
-            <button class='closeModal' id='changeDifficulty'>Change Level</button>
-                </div>
+                <button class='closeModal' id='playAgain'>Play Again</button>
+                <button class='closeModal' id='changeDifficulty'>Change Level</button>
+            </div>
         </div>
     </div>
 

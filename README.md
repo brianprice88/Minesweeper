@@ -1,4 +1,4 @@
-# minesweeper
+# Minesweeper
 
 The classic game that you can play on Beginner, Intermediate, or Expert level.  Built with JavaScript/HTML/CSS (no frameworks) on front end, with Express server and Mongo database to store high scores.
 

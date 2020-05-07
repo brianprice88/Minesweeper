@@ -1,3 +1,7 @@
+@import url(https://fonts.googleapis.com/css?family=Orbitron);
+
+@import url(https://fonts.googleapis.com/css?family=Titillium+Web:900);
+
 body {
     margin: 0;
     padding: 0;
@@ -231,15 +235,12 @@ form input {
   #gameRules {
     opacity: 0;
     border-bottom: 2px dotted red;
-    padding-bottom: 20px
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 20px;
+    line-height: 10px;
   }
 
-  #gameRules p {
-      margin: 0 auto;
-      font-size: 20px;
-      text-align: center;
-
-  }
 
   /* Game stats ----------------------------------- */
 
@@ -251,9 +252,9 @@ form input {
   }
 
   #gameStats p {
-      margin: 0 auto;
-      font-size: 30px;
-      text-align: center;
+    margin: 0 auto;
+    font-size: 30px;
+    text-align: center;
   }
 
   #minesOnBoard {
@@ -294,9 +295,45 @@ form input {
    /* End of game modal ------------ */
 
    #endMessage {
-       margin-left: 20%;
-       font-size: 36px
+       position: relative;
    }
+
+   .youLose {
+    animation: gameOver 1s infinite;
+    font-size: 60px;
+    letter-spacing: 5px;
+    text-align: center
+
+   }
+
+   @keyframes gameOver {
+    0%{color:lime; text-shadow:0 0 20px green}
+    25%{color:green; text-shadow:2px 2px 2px lime; transform: translate(-2px,1px)}
+    40%{color:lime; text-shadow:none; transform: translate(0,0)}
+    50%{color:green; text-shadow:5px 5px 2px blue, -5px -5px 2px red; transform: translate(0px,5px)}
+    70%{color:lime; text-shadow:none; transform: translate(0,0)}
+    80%{color:lime; text-shadow:0 0 20px green; transform: translate(-2px,1px)}
+    100%{color:lime; text-shadow:none;}
+  }
+
+  .youWin {
+    font-size: 30px;
+    color: blue;
+    font-family: cursive;
+    margin-left: 30%;
+    color: blue;
+    animation: glow 1s ease-in-out infinite alternate;
+  }
+
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+    }   
+    to {
+      text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+    }
+  }
+
 
    .modal {
     display: none;
@@ -320,14 +357,14 @@ form input {
    }
 
    @media screen and (max-width: 1075px), screen and (min-width: 1275px) {
-       .modalFlex {
+    #endMessage, .modalFlex {
            display: flex;
            flex-direction: column
        }
    }
 
   #endGame-content {
-    background-color: #fefefe;
+    background-color: #B22222;
     margin: auto;
     padding: 20px;
     border: 5px solid #888;
@@ -360,9 +397,21 @@ form input {
 #addHighScore {
   width: fit-content;
   height: 50px;
+  position: relative;
+}
+
+::placeholder {
+  color: red;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 13px
 }
 
 #addScoreButton {
   width: fit-content;
-  height: 25px;
+  height: 50px;
+  position: relative;
+  font-size: 13px;
+  cursor: pointer;
+  color: green;
 }

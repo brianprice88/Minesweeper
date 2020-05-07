@@ -116,29 +116,31 @@ var endGame = function (result) {
 
 
         if (result === 'win') {
-            endMessage.innerHTML = 'You Win! &#128513'
+            endMessage.innerHTML = 'You Win!'
+            endMessage.setAttribute('class', 'youWin')
             var tableRows = document.getElementById(`${level}Scores`).children.length
             if (tableRows > 2) {
                 var lowestScore = document.getElementById(`${level}Scores`).children[tableRows - 1].children[1].innerHTML || undefined
                 var lowestScoreFormatted = (parseInt(lowestScore.split(':')[0])) * 60 + (parseInt(lowestScore.split(':')[1]))
             }
             if (tableRows < 12 || (endTime < lowestScoreFormatted)) { // if tbody has fewer than 12 children it means fewer than 10 high scores in this table, while 11 or more children means check if this beat the high score
-                endMessage.innerHTML += 'And you got a high score!'
+                endMessage.innerHTML += '<br> And you got a high score!<br>'
                 var addHighScore = document.createElement('input')
                 addHighScore.setAttribute('type', 'text')
-                addHighScore.setAttribute('placeholder', 'Enter your name to add your score')
+                addHighScore.setAttribute('placeholder', 'Enter your name')
                 addHighScore.setAttribute('id', 'addHighScore')
                 endMessage.append(addHighScore)
                 var addScoreButton = document.createElement('button')
                 addScoreButton.setAttribute('id', 'addScoreButton')
-                addScoreButton.innerHTML = 'Add your score'
+                addScoreButton.innerHTML = 'Add to high scores'
                 endMessage.append(addScoreButton)
                 var deletePrevHighScore = tableRows < 12 ? false : true
                 addScoreButton.addEventListener('click', () => addScore(endTime, deletePrevHighScore))
             }
 
         } else {
-            endMessage.innerHTML = 'You Lose &#128532'
+            endMessage.innerHTML = 'You Lose';
+            endMessage.setAttribute('class', 'youLose')
         }
         document.getElementById('endGame-content').append(endMessage)
     }
@@ -148,11 +150,13 @@ var endGame = function (result) {
 var addScore = function (time, needToUpdate) {
     var name = document.getElementById('addHighScore').value;
     if (!name.match(/^[a-zA-Z]+$/)) { return } // make sure name is valid
+    if (name.length > 12) {name = name.slice(0, 12)} // max length 12 chars
 
     const highScore = document.getElementById('addHighScore')
     const highScoreSubmit = document.getElementById('addScoreButton')
     highScore.parentNode.removeChild(highScore)
     highScoreSubmit.parentNode.removeChild(highScoreSubmit)
+    endMessage.innerHTML = 'Score submitted'
 
 
     const options = { name, time, level };

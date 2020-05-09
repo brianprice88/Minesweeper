@@ -5,8 +5,8 @@ var timeInterval;
 var level;
 var clickListener = function (event) { board.triggerCell(event) } // event handler callback is added at beginning of game and removed at end, thus placed in global scope
 
-const URI = 'https://minesweeper-brian-price.herokuapp.com/highScores'
-// const URI = 'http://localhost:3000/highScores'
+// const URI = 'https://minesweeper-brian-price.herokuapp.com/highScores'
+const URI = 'http://localhost:3000/highScores'
 
 var loadHighScores = function () {
     var scores = []

@@ -5,9 +5,14 @@ var timeInterval;
 var level;
 var clickListener = function (event) { board.triggerCell(event) } // event handler callback is added at beginning of game and removed at end, thus placed in global scope
 
+const URI = 'https://minesweeper-brian-price.herokuapp.com/highScores'
+// const URI = 'http://localhost:3000/highScores'
+
+
+
 var loadHighScores = function () {
     var scores = []
-    fetch('http://localhost:3000/highScores', { method: 'GET' })
+    fetch(URI, { method: 'GET' })
         .then(data => data.json())
         .then(res => scores.push(res))
         .then(next => appendScores(scores[0]))
@@ -153,11 +158,11 @@ var addScore = function (time, needToUpdate) {
         const timeToRemove = elementToRemove.children[1].innerHTML;
         options.nameToRemove = nameToRemove;
         options.timeToRemove = timeToRemove;
-        fetch('http://localhost:3000/highScores', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(options) })
+        fetch(URI, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(options) })
             .then(res => loadHighScores())
             .catch(err => console.error(err))
     } else {
-        fetch('http://localhost:3000/highScores', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(options) })
+        fetch(URI, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(options) })
             .then(res => loadHighScores())
             .catch(err => console.error(err))
     }

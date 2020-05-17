@@ -197,8 +197,8 @@ var clearBoard = function (event) {
     }
 }
 
-
 window.onload = () => {
+    window.addEventListener('contextmenu', (e) => e.preventDefault())
     loadHighScores();
     const form = document.getElementById('newGame');
     form.addEventListener('submit', selectLevel)

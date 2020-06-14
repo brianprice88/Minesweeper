@@ -12,99 +12,104 @@
 </head>
 
 <body>
-    <header>
-        <h1 class='title'>Minesweeper</h1>
-    </header>
+    <div id='loading'></div>
 
-    <button id='viewHighScores'><span>High Scores</span></button>
-    <div id='highScores' class='modal'>
-        <div id='highScoresTable'>
-            <div class="modal-header">
-                <span id="closeHighScores">Return to game</span>
-            </div>
-            <div class="modal-body">
-                <table id='BeginnerScores' class='scoreTable'>
-                    <caption>Beginner</caption>
-                    <tr>
-                        <th>Name</th>
-                        <th>Time</th>
-                    </tr>
-                </table>
-                <table id='IntermediateScores' class='scoreTable'>
-                    <caption>Intermediate</caption>
-                    <tr>
-                        <th>Name</th>
-                        <th>Time</th>
-                    </tr>
-                </table>
-                <table id='ExpertScores' class='scoreTable'>
-                    <caption>Expert</caption>
-                    <tr>
-                        <th>Name</th>
-                        <th>Time</th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+    <div id='game'>
 
-    <form id='newGame'>
-        <div class='levelSelectionButtons'>
-            <h3>Select level:</h3>
-            <label class='levelSelectionButton'>
-                <input type='radio' name='level' value='Beginner' checked='checked'>
-                <span class='checkmark'></span>
-                <strong>Beginner</strong> <br><em>(10 mines on a 9 x 9 board)</em>
-            </label>
-            <label class='levelSelectionButton'>
-                <input type='radio' name='level' value='Intermediate'>
-                <span class='checkmark'></span>
-                <strong>Intermediate</strong> <br><em>(40 mines on a 16 x 16 board)</em>
-            </label>
-            <label class='levelSelectionButton'>
-                <input type='radio' name='level' value='Expert'>
-                <span class='checkmark'></span>
-                <strong>Expert</strong> <br><em>(99 mines on a 16 x 30 board)</em>
-            </label>
-        </div>
-        <input type='submit' value='Start Game'>
-    </form>
+        <header>
+            <h1 class='title'>Minesweeper</h1>
+        </header>
 
-    <div id='gameRules'>
-        <p><strong>Left click</strong> to uncover a square if you don't think it has a <span
-                style='color:red'>mine</span>.</p>
-        <p>If it turns <strong style='color:green'>green</strong>, there are no adjacent <span
-                style='color:red'>mines</span>.</p>
-        <p>If it reveals a <span class='Orbitron'>Number</span>, that's the number of adjacent <span
-                style='color:red'>mines</span>.</p>
-        <p><strong>Right click</strong> to plant a <span style='color:blue'>flag</span> on a square you think has a
-            <span style='color:red'>mine</span>.</p>
-        <p>You <em>win</em> the game by uncovering all squares without <span style='color:red'>mines</span>.</p>
-        <p>You <em>lose</em> if you uncover a <span style='color:red'>mine</span>!</p>
-    </div>
-    <div id='gameStats'>
-        <p>Mines on board: <span id='minesOnBoard'></span>
-            <i class="fa fa-bomb" style="font-size:30px;color:red"></i>
-        </p>
-        <p>Flags remaining: <span id='flagsRemaining'></span>
-            <i class="fa fa-flag-o" style="font-size:30px;color:blue"></i>
-        </p>
-        <p>Minutes elapsed: <span class='Orbitron' id='minutesElapsed'></span> Seconds elapsed: <span class='Orbitron'
-                id='secondsElapsed'></span></p>
-    </div>
-
-    <div id='gameOver' class='modal'>
-        <div id='endGame-content'>
-            <div class='modalFlex'>
-                <button class='closeModal' id='playAgain'>Play Again</button>
-                <button class='closeModal' id='changeDifficulty'>Change Level</button>
+        <button id='viewHighScores'><span>High Scores</span></button>
+        <div id='highScores' class='modal'>
+            <div id='highScoresTable'>
+                <div class="modal-header">
+                    <span id="closeHighScores">Return to game</span>
+                </div>
+                <div class="modal-body">
+                    <table id='BeginnerScores' class='scoreTable'>
+                        <caption>Beginner</caption>
+                        <tr>
+                            <th>Name</th>
+                            <th>Time</th>
+                        </tr>
+                    </table>
+                    <table id='IntermediateScores' class='scoreTable'>
+                        <caption>Intermediate</caption>
+                        <tr>
+                            <th>Name</th>
+                            <th>Time</th>
+                        </tr>
+                    </table>
+                    <table id='ExpertScores' class='scoreTable'>
+                        <caption>Expert</caption>
+                        <tr>
+                            <th>Name</th>
+                            <th>Time</th>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div id='gameBoard'>
-    </div>
+        <form id='newGame'>
+            <div class='levelSelectionButtons'>
+                <h3>Select level:</h3>
+                <label class='levelSelectionButton'>
+                    <input type='radio' name='level' value='Beginner' checked='checked'>
+                    <span class='checkmark'></span>
+                    <strong>Beginner</strong> <br><em>(10 mines on a 9 x 9 board)</em>
+                </label>
+                <label class='levelSelectionButton'>
+                    <input type='radio' name='level' value='Intermediate'>
+                    <span class='checkmark'></span>
+                    <strong>Intermediate</strong> <br><em>(40 mines on a 16 x 16 board)</em>
+                </label>
+                <label class='levelSelectionButton'>
+                    <input type='radio' name='level' value='Expert'>
+                    <span class='checkmark'></span>
+                    <strong>Expert</strong> <br><em>(99 mines on a 16 x 30 board)</em>
+                </label>
+            </div>
+            <input type='submit' value='Start Game'>
+        </form>
 
+        <div id='gameRules'>
+            <p><strong>Left click</strong> to uncover a square if you don't think it has a <span
+                    style='color:red'>mine</span>.</p>
+            <p>If it turns <strong style='color:green'>green</strong>, there are no adjacent <span
+                    style='color:red'>mines</span>.</p>
+            <p>If it reveals a <span class='Orbitron'>Number</span>, that's the number of adjacent <span
+                    style='color:red'>mines</span>.</p>
+            <p><strong>Right click</strong> to plant a <span style='color:blue'>flag</span> on a square you think has a
+                <span style='color:red'>mine</span>.</p>
+            <p>You <em>win</em> the game by uncovering all squares without <span style='color:red'>mines</span>.</p>
+            <p>You <em>lose</em> if you uncover a <span style='color:red'>mine</span>!</p>
+        </div>
+        <div id='gameStats'>
+            <p>Mines on board: <span id='minesOnBoard'></span>
+                <i class="fa fa-bomb" style="font-size:30px;color:red"></i>
+            </p>
+            <p>Flags remaining: <span id='flagsRemaining'></span>
+                <i class="fa fa-flag-o" style="font-size:30px;color:blue"></i>
+            </p>
+            <p>Minutes elapsed: <span class='Orbitron' id='minutesElapsed'></span> Seconds elapsed: <span
+                    class='Orbitron' id='secondsElapsed'></span></p>
+        </div>
+
+        <div id='gameOver' class='modal'>
+            <div id='endGame-content'>
+                <div class='modalFlex'>
+                    <button class='closeModal' id='playAgain'>Play Again</button>
+                    <button class='closeModal' id='changeDifficulty'>Change Level</button>
+                </div>
+            </div>
+        </div>
+
+        <div id='gameBoard'>
+        </div>
+
+    </div>
     <script src="js/game.js" async defer></script>
     <script src="js/board.js" async defer></script>
 </body>

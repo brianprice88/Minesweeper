@@ -198,6 +198,8 @@ var clearBoard = function (event) {
 }
 
 window.onload = () => {
+    document.getElementById('loading').style.display = 'none';
+    document.getElementById('game').style.display = 'block'
     window.addEventListener('contextmenu', (e) => e.preventDefault())
     loadHighScores();
     const form = document.getElementById('newGame');

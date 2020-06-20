@@ -9,4 +9,4 @@ To play the game locally:
 
 To play online, go to https://minesweeper-brian-price.herokuapp.com/.
 
-![Minesweeper][./Minesweeper.png]
+![Minesweeper](./Minesweeper.png)

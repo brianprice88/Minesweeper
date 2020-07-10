@@ -17,7 +17,7 @@ app.use(express.static("./client"));
 app.get("/highScores", controllers.getHighScores);
 app.post("/highScores", controllers.postHighScore);
 app.put("/highScores", controllers.updateHighScore);
-// for using Mongo:
+// for using Mongo, uncomment the below lines and comment out the above lines:
 // app.get("/highScores", models.getHighScores);
 // app.post("/highScores", models.postHighScore);
 // app.put("/highScores", models.updateHighScore);
